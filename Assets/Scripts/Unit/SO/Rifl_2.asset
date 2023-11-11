@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93156836735dbf64face6fd292ee2c36, type: 3}
+  m_Name: Rifl_2
+  m_EditorClassIdentifier: 
+  _variety: 2
+  _grade: 2
+  _damage: 35
+  _attackSpeed: 0.8
+  _particleSystem: {fileID: 6767805006745729367, guid: dd68189a25c3b5c4399b2de02d76be15, type: 3}
+  _template: {fileID: 1780333727858257215, guid: 1aeaa0f3cc93b7f47b934391e511ba02, type: 3}

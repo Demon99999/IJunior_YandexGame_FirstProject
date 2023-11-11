@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbb88d0da08100b4b88a1cd5dadaa5f1, type: 3}
+  m_Name: Level_1
+  m_EditorClassIdentifier: 
+  _enemyCounts:
+  - _enemy: {fileID: 2905104302219720557, guid: 98925022b94a05347bfe87a9d68a3d21, type: 3}
+    _count: 20
+  - _enemy: {fileID: 5714549359508456490, guid: 24512f1bfc1b3e64a903104079328abf, type: 3}
+    _count: 16
+  - _enemy: {fileID: 634854900930751154, guid: fd2bbad4b5fb9604d9fdcae9a9a3720c, type: 3}
+    _count: 10
+  _goldReward: 2150
+  _cristalsReward: 0
