@@ -22,16 +22,15 @@ public class AimCursor : MonoBehaviour
         if (_isCursorEnable)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            
+            MoveAim(ray);
 
-            if (!Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask))
+            if (Input.touchCount > 0)
             {
-                _spriteRenderer.enabled = false;
-            }
-            else
-            {
-                transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                _spriteRenderer.enabled = true;
+                Touch touch = Input.GetTouch(0);
+                Ray rayTouch = Camera.main.ScreenPointToRay(touch.position);
+
+                MoveAim(rayTouch);
             }
         }
     }
@@ -40,5 +39,20 @@ public class AimCursor : MonoBehaviour
     {
         _spriteRenderer.enabled = value;
         _isCursorEnable = value;
+    }
+
+    private void MoveAim(Ray ray)
+    {
+        RaycastHit hit;
+
+        if (!Physics.Raycast(ray, out hit, Mathf.Infinity, _layerMask))
+        {
+            _spriteRenderer.enabled = false;
+        }
+        else
+        {
+            transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+            _spriteRenderer.enabled = true;
+        }
     }
 }
