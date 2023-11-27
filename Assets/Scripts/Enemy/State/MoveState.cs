@@ -30,7 +30,6 @@ public class MoveState : EnemyState
         if (StrongPoint!= null)
         {
             _agent.SetDestination(StrongPoint.transform.position);
-            transform.rotation = Quaternion.LookRotation(_agent.velocity.normalized);
         }
     }
 }

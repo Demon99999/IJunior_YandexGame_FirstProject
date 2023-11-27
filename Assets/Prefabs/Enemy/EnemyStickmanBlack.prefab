@@ -1180,7 +1180,7 @@ MonoBehaviour:
   _transitions: []
   _fadeTime: 3
   _particleDied: {fileID: 5559035513879276221, guid: 8957292c744ffd8409119e8c1101d7ec, type: 3}
-  _material: {fileID: 2100004, guid: d06b94986ee731a408bed0b1bf22a8a7, type: 3}
+  _material: {fileID: -5596091278483731029, guid: dc8046f0fb1c82f439532231f92db928, type: 3}
 --- !u!1 &7376205603015769303
 GameObject:
   m_ObjectHideFlags: 0

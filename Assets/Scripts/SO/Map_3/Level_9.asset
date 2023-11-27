@@ -14,18 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyCounts:
   - _enemy: {fileID: 2905104302219720557, guid: 98925022b94a05347bfe87a9d68a3d21, type: 3}
-    _count: 30
-  - _enemy: {fileID: 5714549359508456490, guid: 24512f1bfc1b3e64a903104079328abf, type: 3}
-    _count: 25
-  - _enemy: {fileID: 634854900930751154, guid: fd2bbad4b5fb9604d9fdcae9a9a3720c, type: 3}
     _count: 20
-  - _enemy: {fileID: 4550557789591148768, guid: 00610d3b2c0ae424ca4bb005b1961652, type: 3}
+  - _enemy: {fileID: 5714549359508456490, guid: 24512f1bfc1b3e64a903104079328abf, type: 3}
+    _count: 20
+  - _enemy: {fileID: 634854900930751154, guid: fd2bbad4b5fb9604d9fdcae9a9a3720c, type: 3}
     _count: 15
+  - _enemy: {fileID: 4550557789591148768, guid: 00610d3b2c0ae424ca4bb005b1961652, type: 3}
+    _count: 12
   - _enemy: {fileID: 4012509145961695884, guid: d45db609687191d4c95a49c23fa64e8d, type: 3}
-    _count: 10
+    _count: 7
   - _enemy: {fileID: 7729443868035623270, guid: 576267adbb418fd42ad2fefeada7bdf2, type: 3}
-    _count: 5
-  - _enemy: {fileID: 2881763611873693487, guid: af2d3223ecbf06247aea45d08ffb9656, type: 3}
     _count: 3
+  - _enemy: {fileID: 2881763611873693487, guid: af2d3223ecbf06247aea45d08ffb9656, type: 3}
+    _count: 2
   _goldReward: 10000
-  _cristalsReward: 0

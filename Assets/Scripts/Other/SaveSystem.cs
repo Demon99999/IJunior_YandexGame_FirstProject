@@ -1,16 +1,19 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Agava.YandexGames;
+using PlayerPrefs = UnityEngine.PlayerPrefs;
 
 public class SaveSystem : MonoBehaviour
 {
-    [SerializeField] private Spawner _spawner;
-    [SerializeField] private SceneNext _sceneManage;
-
+    private const string LeaderboardName = "ScoreCoinDemon";
     private const string CurrentLevel = "CurrentLevel";
     private const string Level = "Level";
     private const string Gold = "Gold";
     private const string AllGold = "AllGold";
     private const string Map = "Map";
+
+    [SerializeField] private Spawner _spawner;
+    [SerializeField] private SceneNext _sceneManage;
 
     private int _initialLevel = 1;
     private int _initialMap = 2;
@@ -67,5 +70,20 @@ public class SaveSystem : MonoBehaviour
         PlayerPrefs.SetInt(Level, _initialLevel);
         PlayerPrefs.SetInt(Gold, _initialAmountGold);
         PlayerPrefs.SetInt(Map, _initialMap);
+    }
+
+    public void SetScore()
+    {
+        SaveLeaderboardScore(PlayerPrefs.GetInt(AllGold));
+    }
+
+    private void SaveLeaderboardScore(int value)
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        Leaderboard.GetPlayerEntry(LeaderboardName, response =>
+        {
+            Leaderboard.SetScore(LeaderboardName, value);
+        });
+#endif
     }
 }

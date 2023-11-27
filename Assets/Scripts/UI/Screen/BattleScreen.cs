@@ -11,6 +11,7 @@ public class BattleScreen : Screen
     [SerializeField] private Button _buyBazukaButton;
     [SerializeField] private Button _settingButton;
     [SerializeField] private Button _advertisingButton;
+    [SerializeField] private Button _leaderboardButton;
 
     [SerializeField] private TMP_Text _buySniperText;
     [SerializeField] private TMP_Text _buyRiflText;
@@ -29,6 +30,7 @@ public class BattleScreen : Screen
 
     public event UnityAction PlayButtonClick;
     public event UnityAction SettingButtonClick;
+    public event UnityAction LeaderboardButtonClick;
 
     private void OnEnable()
     {
@@ -38,6 +40,7 @@ public class BattleScreen : Screen
         _buyBazukaButton.onClick.AddListener(OnBuyButtonBazuka);
         _settingButton.onClick.AddListener(OnSettingButton);
         _advertisingButton.onClick.AddListener(ClaimGoldForAdvertising);
+        _leaderboardButton.onClick.AddListener(OnLeaderboardButton);
 
         _unitSpawner.PriseSniperChanged += OnPriseSniperChanged;
         _unitSpawner.PriseRiflChanged += OnPriseRiflChanged;
@@ -54,6 +57,7 @@ public class BattleScreen : Screen
         _buyBazukaButton.onClick.RemoveListener(OnBuyButtonBazuka);
         _settingButton.onClick.RemoveListener(OnSettingButton);
         _advertisingButton.onClick.RemoveListener(ClaimGoldForAdvertising);
+        _leaderboardButton.onClick.RemoveListener(OnLeaderboardButton);
 
         _unitSpawner.PriseSniperChanged -= OnPriseSniperChanged;
         _unitSpawner.PriseRiflChanged -= OnPriseRiflChanged;
@@ -123,6 +127,11 @@ public class BattleScreen : Screen
     private void OnSettingButton()
     {
         SettingButtonClick?.Invoke();
+    }
+
+    private void OnLeaderboardButton()
+    {
+        LeaderboardButtonClick?.Invoke();
     }
 
     private void ClaimGoldForAdvertising()

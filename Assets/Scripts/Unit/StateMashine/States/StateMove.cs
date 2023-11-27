@@ -24,7 +24,6 @@ public class StateMove : UnitState
         if (Target != null)
         {
             _navMeshAgent.SetDestination(Target);
-            transform.rotation = Quaternion.LookRotation(_navMeshAgent.velocity.normalized);
             _animator.Play(Run);
         }
     }

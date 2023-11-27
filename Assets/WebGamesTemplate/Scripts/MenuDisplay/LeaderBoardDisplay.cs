@@ -16,7 +16,7 @@ public class LeaderBoardDisplay : MonoBehaviour
 
     public void OpenVKLeaderboard()
     {
-        //Agava.VKGames.Leaderboard.ShowLeaderboard(_playerScore);
+        //Agava.VKGames.LeaderboardScr.ShowLeaderboard(_playerScore);
     }
 
     public void OpenYandexLeaderboard()

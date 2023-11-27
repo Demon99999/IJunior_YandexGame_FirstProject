@@ -75,6 +75,7 @@ public class VictoryScreen : Screen
         _squad.ReturnUnits();
         _unitSpawner.ResetPrise();
         _saveSystem.Save();
+        _saveSystem.SetScore();
 
         if (_spawner.ChecForMaximumLevel())
         {

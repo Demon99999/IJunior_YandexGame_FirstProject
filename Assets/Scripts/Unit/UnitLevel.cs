@@ -4,8 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Unit))]
 public class UnitLevel : MonoBehaviour
 {
-    private const string Level = "LVL";
-
     [SerializeField] private TMP_Text _tmpText;
 
     private UnitCard _unitCard;
@@ -13,7 +11,7 @@ public class UnitLevel : MonoBehaviour
     private void Start()
     {
         _unitCard = GetComponent<Unit>().Card;
-        _tmpText.text =Level + _unitCard.Grade.ToString();
+        _tmpText.text =_unitCard.Grade.ToString();
     }
 
     public void HideLevel()

@@ -7,11 +7,13 @@ public class Game : MonoBehaviour
     [SerializeField] private FightScreen _fightScreen;
     [SerializeField] private DefeatScreen _defeatScreen;
     [SerializeField] private SettingMenuScreen _settingMenuScreen;
+    [SerializeField] private LeaderboardScr _leaderboardScr;
 
     private void OnEnable()
     {
         _buttleScreen.PlayButtonClick += OnStartGame;
         _buttleScreen.SettingButtonClick += OnSettingMenuScreen;
+        _buttleScreen.LeaderboardButtonClick += OnOpenLeaderboardScreen;
 
         _victoryScreen.BonusButtonClick += OnMenuAfterFightScreen;
         _victoryScreen.ResumeButtonClick += OnMenuAfterFightScreen;
@@ -24,6 +26,7 @@ public class Game : MonoBehaviour
     {
         _buttleScreen.PlayButtonClick -= OnStartGame;
         _buttleScreen.SettingButtonClick -= OnSettingMenuScreen;
+        _buttleScreen.LeaderboardButtonClick -= OnOpenLeaderboardScreen;
 
         _victoryScreen.BonusButtonClick -= OnMenuAfterFightScreen;
         _victoryScreen.ResumeButtonClick -= OnMenuAfterFightScreen;
@@ -54,5 +57,10 @@ public class Game : MonoBehaviour
     private void OnSettingMenuScreen()
     {
         _settingMenuScreen.OpenScreen();
+    }
+
+    private void OnOpenLeaderboardScreen()
+    {
+        _leaderboardScr.Open();
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 public class AimCursor : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private float _offSetX=2f;
 
     private SpriteRenderer _spriteRenderer;
     private Transform cameraPos;
@@ -51,7 +52,7 @@ public class AimCursor : MonoBehaviour
         }
         else
         {
-            transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+            transform.position = new Vector3(hit.point.x-_offSetX, hit.point.y, hit.point.z);
             _spriteRenderer.enabled = true;
         }
     }

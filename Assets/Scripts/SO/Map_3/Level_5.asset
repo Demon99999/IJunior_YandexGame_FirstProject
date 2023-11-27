@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyCounts:
   - _enemy: {fileID: 2905104302219720557, guid: 98925022b94a05347bfe87a9d68a3d21, type: 3}
-    _count: 60
+    _count: 40
   - _enemy: {fileID: 5714549359508456490, guid: 24512f1bfc1b3e64a903104079328abf, type: 3}
-    _count: 50
+    _count: 30
   - _enemy: {fileID: 634854900930751154, guid: fd2bbad4b5fb9604d9fdcae9a9a3720c, type: 3}
     _count: 30
   - _enemy: {fileID: 7729443868035623270, guid: 576267adbb418fd42ad2fefeada7bdf2, type: 3}
-    _count: 3
+    _count: 4
   _goldReward: 5400
-  _cristalsReward: 0

@@ -10,7 +10,7 @@ public class GameLoader : MonoBehaviour
     [SerializeField] private Button _leaderboardButton;
     [SerializeField] private SaveSystem _saveSystem;
     [SerializeField] private SettingMenuScreen _settingMenuScreen;
-    [SerializeField] private LeaderboardScreen _leaderboardScreen;
+    [SerializeField] private LeaderboardScr _leaderboardScrScreen;
     [SerializeField] private SceneNext _sceneNext;
     [SerializeField] private YandexAds _yandexAds;
 
@@ -18,6 +18,10 @@ public class GameLoader : MonoBehaviour
 
     private void Awake()
     {
+#if UNITY_WEBGL && !UNITY_EDITOR
+            YandexGamesSdk.GameReady();
+#endif
+
         _saveSystem.LoadScene();
 
         if (UnityEngine.PlayerPrefs.HasKey(Map))
@@ -28,10 +32,6 @@ public class GameLoader : MonoBehaviour
         {
             _continueButton.gameObject.SetActive(false);
         }
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-            YandexGamesSdk.GameReady();
-#endif
     }
 
     private void OnEnable()
@@ -84,6 +84,6 @@ public class GameLoader : MonoBehaviour
 
     private void OpenLeaderboardScreen()
     {
-        _leaderboardScreen.OpenAuthorizationPanel();
+        _leaderboardScrScreen.Open();
     }
 }
