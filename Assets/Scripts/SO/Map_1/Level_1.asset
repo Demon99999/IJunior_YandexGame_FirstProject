@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyCounts:
   - _enemy: {fileID: 2905104302219720557, guid: 98925022b94a05347bfe87a9d68a3d21, type: 3}
-    _count: 8
-  _goldReward: 500
-  _cristalsReward: 75
+    _count: 6
+  _goldReward: 150

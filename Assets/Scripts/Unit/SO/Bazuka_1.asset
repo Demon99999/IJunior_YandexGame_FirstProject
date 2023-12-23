@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93156836735dbf64face6fd292ee2c36, type: 3}
   m_Name: Bazuka_1
   m_EditorClassIdentifier: 
+  _id: 1
   _variety: 3
   _grade: 1
   _damage: 17
   _attackSpeed: 2.4
-  _particleSystem: {fileID: 6767805006745729367, guid: dd68189a25c3b5c4399b2de02d76be15, type: 3}
+  _particleSystem: {fileID: 6767805006745729367, guid: 09bf0c1287c33e242b6f01a50035922c, type: 3}
   _template: {fileID: 2332559344475807742, guid: cb2a3bb739edc374ea5e0544c7630b04, type: 3}

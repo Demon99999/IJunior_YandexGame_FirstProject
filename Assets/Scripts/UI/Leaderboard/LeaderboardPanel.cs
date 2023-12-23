@@ -8,7 +8,7 @@ public class LeaderboardPanel : Screen
 {
     private const int MinPlayerCount = 1;
     private const int MaxPlayerCount = 5;
-    private const string LeaderboardName = "ScoreCoinDemon";
+    private const string LeaderboardName = "Demon9000";
 
     [SerializeField] private Button _closeButton;
     [SerializeField] private LeaderboardView _leaderboardView;

@@ -109,7 +109,7 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470231054100626792}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -202,8 +202,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.4979503, y: 1.7959473, z: 0.41615412}
-  m_Center: {x: -0.0021664053, y: 0.8932147, z: -0.021465585}
+  m_Size: {x: 0.8506014, y: 1.8925228, z: 0.62828124}
+  m_Center: {x: -0.025235027, y: 0.94150245, z: 0.034325764}
 --- !u!82 &6284428386325668355
 AudioSource:
   m_ObjectHideFlags: 0
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac02927280c254c4e88683fd45f453ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 70
+  _health: 90
 --- !u!114 &5535871711842461992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1119,6 +1119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 2842925144720930618}
+  Target: {fileID: 0}
 --- !u!114 &1232840168081666623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1133,6 +1134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 9162139636191145208}
+  Target: {fileID: 0}
   _attackForce: 8
   _attackDelay: 1.5
 --- !u!114 &2842925144720930618
@@ -1178,6 +1180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transitions: []
+  Target: {fileID: 0}
   _fadeTime: 3
   _particleDied: {fileID: 5559035513879276221, guid: 8957292c744ffd8409119e8c1101d7ec, type: 3}
   _material: {fileID: -5596091278483731029, guid: dc8046f0fb1c82f439532231f92db928, type: 3}

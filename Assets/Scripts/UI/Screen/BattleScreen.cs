@@ -1,3 +1,4 @@
+using Agava.YandexGames;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 
 public class BattleScreen : Screen
 {
+    private const string UnitId = "UnitId";
+
     [SerializeField] private Button _battleButton;
     [SerializeField] private Button _buySniperButton;
     [SerializeField] private Button _buyRiflButton;
@@ -27,10 +30,13 @@ public class BattleScreen : Screen
     [SerializeField] private SaveSystem _saveSystem;
     [SerializeField] private GroundAudio _groundAudio;
     [SerializeField] private LevelReward _levelReward;
+    [SerializeField] private YandexAds _yandexAds;
 
     public event UnityAction PlayButtonClick;
     public event UnityAction SettingButtonClick;
     public event UnityAction LeaderboardButtonClick;
+
+    private int _firstUnit = 0;
 
     private void OnEnable()
     {
@@ -70,20 +76,30 @@ public class BattleScreen : Screen
     {
         OpenScreen();
         Time.timeScale = 1;
+
+        _battleButton.gameObject.SetActive(false);
+
+        if (UnityEngine.PlayerPrefs.HasKey(UnitId+_firstUnit))
+        {
+            _battleButton.gameObject.SetActive(true);
+        }
     }
 
     private void OnBuyButtonSniper()
     {
+        _battleButton.gameObject.SetActive(true);
         _unitSpawner.SpawnSniper();
     }
 
     private void OnBuyButtonRifl()
     {
+        _battleButton.gameObject.SetActive(true);
         _unitSpawner.SpawnRifl();
     }
 
     private void OnBuyButtonBazuka()
     {
+        _battleButton.gameObject.SetActive(true);
         _unitSpawner.SpawnBazuka();
     }
 
@@ -136,6 +152,6 @@ public class BattleScreen : Screen
 
     private void ClaimGoldForAdvertising()
     {
-        _levelReward.ClaimGoldForAdvertising();
+        VideoAd.Show(_yandexAds.OnAdOpen, _levelReward.ClaimGoldForAdvertising, _yandexAds.OnAdClose);
     }
 }

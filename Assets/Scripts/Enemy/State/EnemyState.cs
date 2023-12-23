@@ -8,21 +8,23 @@ public class EnemyState : MonoBehaviour
     public Animator Animator { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
     public EnemyTransition[] Transitions => _transitions;
+    public Transform Target;
 
-    public void Enter(StrongPoint strongPoint, Animator animator, Rigidbody rigidbody)
+    public void Enter(StrongPoint strongPoint, Animator animator, Rigidbody rigidbody, Transform target)
     {
         if (enabled == false)
         {
             StrongPoint = strongPoint;
             Animator = animator;
             Rigidbody = rigidbody;
+            Target = target;
 
             enabled = true;
 
             foreach (var transition in _transitions)
             {
                 transition.enabled = true;
-                transition.Init(StrongPoint);
+                transition.Init(StrongPoint, Target);
             }
         }
     }

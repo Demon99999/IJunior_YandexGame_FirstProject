@@ -1,3 +1,4 @@
+using Agava.YandexGames;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ public class VictoryScreen : Screen
     [SerializeField] private AimCursor _aimCursor;
     [SerializeField] private SaveSystem _saveSystem;
     [SerializeField] private UnitSpawner _unitSpawner;
+    [SerializeField] private SpawnBarrels _spawnBarrels;
     [SerializeField] private YandexAds _yandexAds;
 
     private int _counter = 0;
@@ -27,7 +29,7 @@ public class VictoryScreen : Screen
 
     private void OnEnable()
     {
-        _enemyHandler.AllEnemiesKilled += OpenScreen;
+        _enemyHandler.AllEnemiesKilled += OpenVictoryScreen;
 
         _resumeButton.onClick.AddListener(OnResumeButton);
         _bonusButton.onClick.AddListener(OnBonusButton);
@@ -35,10 +37,16 @@ public class VictoryScreen : Screen
 
     private void OnDisable()
     {
-        _enemyHandler.AllEnemiesKilled -= OpenScreen;
+        _enemyHandler.AllEnemiesKilled -= OpenVictoryScreen;
 
         _resumeButton.onClick.RemoveListener(OnResumeButton);
         _bonusButton.onClick.RemoveListener(OnBonusButton);
+    }
+
+    private void OpenVictoryScreen()
+    {
+        _aimCursor.CursorOn(false);
+        OpenScreen();
     }
 
     private void OnResumeButton()
@@ -60,22 +68,27 @@ public class VictoryScreen : Screen
 
     private void OnBonusButton()
     {
-        _levelReward.ClaimDoubleReward();
+        VideoAd.Show(_yandexAds.OnAdOpen, _levelReward.ClaimDoubleReward, OnBonusButtonCallback);
+    }
+
+    private void OnBonusButtonCallback()
+    {
         BonusButtonClick?.Invoke();
         OnMenuAfterFightScreen();
+        _yandexAds.OnAdClose();
     }
 
     private void OnMenuAfterFightScreen()
     {
         _spawner.ShowLevel();
+        _spawnBarrels.Clear();
         _enemyHandler.OnDestroyEnemies();
         _cameraChanger.OnSwitchCamera();
         _gridGenerator.ShowPoints();
-        _aimCursor.CursorOn(false);
         _squad.ReturnUnits();
-        _unitSpawner.ResetPrise();
         _saveSystem.Save();
         _saveSystem.SetScore();
+        _saveSystem.LoadUnits();
 
         if (_spawner.ChecForMaximumLevel())
         {

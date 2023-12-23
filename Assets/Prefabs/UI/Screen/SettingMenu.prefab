@@ -301,7 +301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.01623245, y: 0.77569073}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.9555054, y: 0}
+  m_AnchoredPosition: {x: -7.9555054, y: 46}
   m_SizeDelta: {x: -403.8524, y: -48.8629}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2948729985760411694
@@ -333,7 +333,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4c4f25367b5c2724591f659e1a4c9ca5, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -414,7 +414,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4c4f25367b5c2724591f659e1a4c9ca5, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -551,7 +551,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5290524996953791244}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -1020,8 +1020,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 40.3036}
+  m_AnchoredPosition: {x: -5.725281, y: 1.9083862}
+  m_SizeDelta: {x: 57.2522, y: 51.754}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4839173639096190104
 CanvasRenderer:

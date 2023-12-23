@@ -1,3 +1,4 @@
+using Agava.YandexGames;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ public class DefeatScreen : Screen
     [SerializeField] private AimCursor _aimCursor;
     [SerializeField] private SaveSystem _saveSystem;
     [SerializeField] private UnitSpawner _unitSpawner;
+    [SerializeField] private SpawnBarrels _spawnBarrels;
     [SerializeField] private YandexAds _yandexAds;
 
     private int _counter = 0;
@@ -45,8 +47,12 @@ public class DefeatScreen : Screen
     private void OpenDefeatScreen()
     {
         _enemyHandler.OnDestroyEnemies();
+        _aimCursor.CursorOn(false);
         OpenScreen();
+    }
 
+    private void OnRestartButton()
+    {
         if (_counter >= numberOfRepetitions)
         {
             _yandexAds.ShowInterstitial();
@@ -56,10 +62,7 @@ public class DefeatScreen : Screen
         {
             _counter++;
         }
-    }
 
-    private void OnRestartButton()
-    {
         _saveSystem.Load();
         RestartButtonClick?.Invoke();
         OnMenuAfterFightScreen();
@@ -67,27 +70,31 @@ public class DefeatScreen : Screen
 
     private void OnBonusButton()
     {
-        _yandexAds.ShowRewardAd();
         _saveSystem.Load();
-        BonusButtonClick?.Invoke();
-        _levelReward.ClaimGoldForAdvertisingForDefeat();
-        OnMenuAfterFightScreen();
+        VideoAd.Show(_yandexAds.OnAdOpen, _levelReward.ClaimGoldForAdvertisingForDefeat, OnBonusButtonCallback);
     }
 
     private void OnMenuAfterFightScreen()
     {
         _spawner.ShowLevel();
+        _spawnBarrels.Clear();
         _enemyHandler.OnDestroyEnemies();
         _cameraChanger.OnSwitchCamera();
         _gridGenerator.ShowPoints();
-        _aimCursor.CursorOn(false);
         _squad.ReturnUnits();
-        _unitSpawner.ResetPrise();
+        _saveSystem.LoadUnits();
 
         if (_spawner.ChecForMaximumLevel())
             _saveSystem.ResetLevel();
 
         _spawner.StartLevel();
         _healthContainer.ResetHealth();
+    }
+
+    private void OnBonusButtonCallback()
+    {
+        BonusButtonClick?.Invoke();
+        OnMenuAfterFightScreen();
+        _yandexAds.OnAdClose();
     }
 }

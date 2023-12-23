@@ -7,7 +7,8 @@ public class MoveState : EnemyState
     private const string Run = "Run";
 
     private NavMeshAgent _agent;
-    
+    private Vector3 _target;
+
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -27,9 +28,9 @@ public class MoveState : EnemyState
 
     private void Update()
     {
-        if (StrongPoint!= null)
+        if (StrongPoint != null)
         {
-            _agent.SetDestination(StrongPoint.transform.position);
+            _agent.SetDestination(Target.position);
         }
     }
 }

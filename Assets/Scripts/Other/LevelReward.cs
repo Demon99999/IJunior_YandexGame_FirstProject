@@ -5,11 +5,10 @@ public class LevelReward : MonoBehaviour
 {
     [SerializeField] private EnemyHandler _enemyHandler;
     [SerializeField] private Spawner _spawner;
-    [SerializeField] private YandexAds _yandexAds;
-
+    
     private int _goldCount = 0;
-    private int _goldForAdvertising = 250;
-    private int _goldForAdvertisingForDefeat = 500;
+    private int _goldForAdvertising = 50;
+    private int _goldForAdvertisingForDefeat = 100;
     private int _doubleMultiplier = 2;
 
     public event UnityAction<int> GoldChanged;
@@ -34,25 +33,23 @@ public class LevelReward : MonoBehaviour
 
     public void ClaimReward()
     {
-        Wallet.ChangeMoney(_goldCount);
+        Wallet.AddMoney(_goldCount);
         _goldCount = 0;
     }
 
     public void ClaimDoubleReward()
     {
-        _yandexAds.ShowRewardAd();
-        Wallet.ChangeMoney(_goldCount * _doubleMultiplier);
+        Wallet.AddMoney(_goldCount * _doubleMultiplier);
         _goldCount = 0;
     }
 
     public void ClaimGoldForAdvertising()
     {
-        _yandexAds.ShowRewardAd();
-        Wallet.ChangeMoney(_goldForAdvertising);
+        Wallet.AddMoney(_goldForAdvertising);
     }
 
     public void ClaimGoldForAdvertisingForDefeat()
     {
-        Wallet.ChangeMoney(_goldForAdvertisingForDefeat);
+        Wallet.AddMoney(_goldForAdvertisingForDefeat);
     }
 }

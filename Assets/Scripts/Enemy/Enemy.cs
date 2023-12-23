@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody _rigidbody;
     private HealthContainer _healthContainer;
     private StrongPoint _targetPoint;
+    private Transform _target;
 
     public event UnityAction<Enemy> Died;
 
@@ -38,8 +39,8 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _currentState = _firstState;
-        _currentState.Enter(_targetPoint, _animator, _rigidbody);
-        _dieState.Enter(_targetPoint, _animator, _rigidbody);
+        _currentState.Enter(_targetPoint, _animator, _rigidbody, _target);
+        _dieState.Enter(_targetPoint, _animator, _rigidbody, _target);
     }
 
     private void Update()
@@ -47,7 +48,7 @@ public class Enemy : MonoBehaviour
         foreach (var transition in _currentState.Transitions)
         {
             transition.enabled = true;
-            transition.Init(_targetPoint);
+            transition.Init(_targetPoint, _target);
         }
 
         if (_currentState == null)
@@ -64,9 +65,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Init(StrongPoint targetPoint)
+    public void Init(StrongPoint targetPoint, Transform target)
     {
         _targetPoint = targetPoint;
+        _target = target;
     }
 
     public void ApplayDamage(Rigidbody rigidbody, int damage, int force)
@@ -97,6 +99,6 @@ public class Enemy : MonoBehaviour
         _currentState = nextState;
 
         if (_currentState != null)
-            _currentState.Enter(_targetPoint, _animator, _rigidbody);
+            _currentState.Enter(_targetPoint, _animator, _rigidbody, _target);
     }
 }

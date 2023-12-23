@@ -21,4 +21,4 @@ MonoBehaviour:
     _count: 4
   - _enemy: {fileID: 2881763611873693487, guid: af2d3223ecbf06247aea45d08ffb9656, type: 3}
     _count: 2
-  _goldReward: 8500
+  _goldReward: 850

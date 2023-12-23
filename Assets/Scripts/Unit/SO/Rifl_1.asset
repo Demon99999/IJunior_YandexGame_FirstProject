@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93156836735dbf64face6fd292ee2c36, type: 3}
   m_Name: Rifl_1
   m_EditorClassIdentifier: 
+  _id: 6
   _variety: 2
   _grade: 1
   _damage: 15

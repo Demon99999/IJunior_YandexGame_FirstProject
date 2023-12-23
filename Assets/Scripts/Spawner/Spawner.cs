@@ -10,6 +10,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private List<Level> _levels;
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private StrongPoint _strongPoint;
+    [SerializeField] private SpawnBarrels _spawnBarrels;
 
     private int _currentLevelIndex = 0;
     private int _levelIndex = 1;
@@ -61,6 +62,7 @@ public class Spawner : MonoBehaviour
         _enemyCounts = _currentLevel.EnemyCounts;
 
         SpawnEnemies();
+        _spawnBarrels.Create();
     }
 
     public void ShowLevel()
@@ -109,7 +111,7 @@ public class Spawner : MonoBehaviour
             {
                 spawnPoint = GetSpawnPoint();
                 enemyCurrent = Instantiate(enemy.Enemy, spawnPoint.position, Quaternion.identity, _container);
-                enemyCurrent.Init(_strongPoint);
+                enemyCurrent.Init(_strongPoint, _strongPoint.GetPoint());
                 _enemyHandler.AddEnemy(enemyCurrent);
                 enemyCurrent = null;
                 countEnemies--;

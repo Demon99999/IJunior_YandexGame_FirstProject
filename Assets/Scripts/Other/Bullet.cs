@@ -1,11 +1,13 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private int _force;
     [SerializeField] private float _radius;
     [SerializeField] private ParticleSystem _particle;
+    [SerializeField] private ParticleSystem _particleHit;
 
     private ParticleSystem _particleSystem;
     private int _damage;
@@ -65,25 +67,52 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out EnemyCollision enemy))
+        //
+        if (_particleHit != null)
         {
-            if (enemy != null)
+            _particleHit.transform.position = transform.position;
+            _particleHit.Play();
+        }
+
+        var particle = Instantiate(_particleHit);
+        Destroy(gameObject);
+        Destroy(particle.gameObject, 1f);
+
+        Collider[] colliders2 = Physics.OverlapSphere(transform.position, _radius);
+
+        foreach (Collider collider in colliders2)
+        {
+            if (collider.TryGetComponent(out EnemyCollision enemyCollision))
             {
-                Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
+                ApplyDamageToEnemy(enemyCollision);
+            }
 
-                foreach (Collider collider in colliders)
-                {
-                    if (collider.TryGetComponent(out EnemyCollision enemyCollision))
-                    {
-                        ApplyDamageToEnemy(enemyCollision);
-                    }
-
-                    if (collider.TryGetComponent(out ExplosionBarrel explosionBarrel))
-                    {
-                        explosionBarrel.Explode();
-                    }
-                }
+            if (collider.TryGetComponent(out ExplosionBarrel explosionBarrel))
+            {
+                explosionBarrel.Explode();
             }
         }
+        //
+
+        //if (other.TryGetComponent(out EnemyCollision enemy))
+        //{
+        //    if (enemy != null)
+        //    {
+        //        Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
+
+        //        foreach (Collider collider in colliders)
+        //        {
+        //            if (collider.TryGetComponent(out EnemyCollision enemyCollision))
+        //            {
+        //                ApplyDamageToEnemy(enemyCollision);
+        //            }
+
+        //            if (collider.TryGetComponent(out ExplosionBarrel explosionBarrel))
+        //            {
+        //                explosionBarrel.Explode();
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

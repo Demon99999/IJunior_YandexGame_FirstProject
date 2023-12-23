@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1648187246902580082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5679941669296505598}
@@ -74,11 +74,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76f57dc7707e88b4cac4174ee7f7191d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 45
+  _speed: 70
   _force: 30
   _radius: 0.1
   _particle: {fileID: 9039742879290479385, guid: d3519f93ec1ff2049aca4967ed6832cf, type: 3}
-  _rigidbody2: {fileID: 4342228552946160574}
+  _particleHit: {fileID: 8876887593665213276, guid: 4584e09dbdd7f4f47bc9fb33a867cb23, type: 3}
 --- !u!65 &4367270906582308634
 BoxCollider:
   m_ObjectHideFlags: 0

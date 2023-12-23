@@ -36,7 +36,7 @@ public class ExplosionBarrel : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
         Destroy(particle.gameObject,1f);
     }
 }

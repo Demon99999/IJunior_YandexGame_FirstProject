@@ -14,7 +14,7 @@ public class DistanceTransitionMin : EnemyTransition
     {
         if (StrongPoint != null)
         {
-            if (Vector3.Distance(transform.position, StrongPoint.transform.position) > _transitionRange)
+            if (Vector3.Distance(transform.position, Target.position) > _transitionRange)
             {
                 NeedTransit = true;
             }

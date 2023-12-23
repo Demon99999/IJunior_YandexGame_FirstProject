@@ -24,10 +24,16 @@ public class Wallet : MonoBehaviour
         MoneyChanged?.Invoke(Money);
     }
 
-    public static void ChangeMoney(int money)
+    public static void AddMoney(int money)
     {
         Money += money;
         _allMoneyReceived += money;
+        MoneyChanged?.Invoke(Money);
+    }
+
+    public static void RemoveMoney(int money)
+    {
+        Money += money;
         MoneyChanged?.Invoke(Money);
     }
 

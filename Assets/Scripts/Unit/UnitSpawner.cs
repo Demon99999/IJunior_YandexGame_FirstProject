@@ -9,9 +9,6 @@ public class UnitSpawner : MonoBehaviour
     [SerializeField] private Unit _prefabBazuka;
     [SerializeField] private GridGenerator _gridGenerator;
     
-    private int _startPriseSniper = 100;
-    private int _startPriseRifl = 150;
-    private int _startPriceBazuka = 200;
     private int _percent = 100;
     private int _percentageIncrease = 10;
 
@@ -21,20 +18,33 @@ public class UnitSpawner : MonoBehaviour
     
     private List<Cell> _cells;
 
+    public int PriceSniper => _priceSniper;
+    public int PriceRifl => _priceRifl;
+    public int PriceBazuka => _priceBazuka;
+
     public event UnityAction<int> PriseSniperChanged;
     public event UnityAction<int> PriseRiflChanged;
     public event UnityAction<int> PriseBazukaChanged;
 
     private void Start()
     {
-        ResetPrise();
-        
         PriseSniperChanged?.Invoke(_priceSniper);
         PriseRiflChanged?.Invoke(_priceRifl);
         PriseBazukaChanged?.Invoke(_priceBazuka);
 
         _cells =new List<Cell>();
         _cells = _gridGenerator.Cells;
+    }
+
+    public void InitPrise(int currentSniperPrise,int currentRiflPrise,int currentBazukaPrise)
+    {
+        _priceSniper=currentSniperPrise;
+        _priceRifl = currentRiflPrise;
+        _priceBazuka = currentBazukaPrise;
+
+        PriseSniperChanged?.Invoke(_priceSniper);
+        PriseRiflChanged?.Invoke(_priceRifl);
+        PriseBazukaChanged?.Invoke(_priceBazuka);
     }
 
     public void SpawnSniper()
@@ -52,17 +62,6 @@ public class UnitSpawner : MonoBehaviour
     public void SpawnBazuka()
     {
         SpawnUnit(ref _priceBazuka, _prefabBazuka);
-        PriseBazukaChanged?.Invoke(_priceBazuka);
-    }
-
-    public void ResetPrise()
-    {
-        _priceSniper = _startPriseSniper;
-        _priceRifl = _startPriseRifl;
-        _priceBazuka = _startPriceBazuka;
-
-        PriseSniperChanged?.Invoke(_priceSniper);
-        PriseRiflChanged?.Invoke(_priceRifl);
         PriseBazukaChanged?.Invoke(_priceBazuka);
     }
 
@@ -97,7 +96,7 @@ public class UnitSpawner : MonoBehaviour
         if (Wallet.Money >= prise)
         {
             Spawn(unit);
-            Wallet.ChangeMoney(-prise);
+            Wallet.RemoveMoney(-prise);
             RaisPrice(ref prise);
         }
     }

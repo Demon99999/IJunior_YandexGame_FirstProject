@@ -11,7 +11,9 @@ public class Squad : MonoBehaviour
     private int _maxUnit = 5;
     private List<Unit> _units;
     private List<Unit> _unitsSquad;
-    
+
+    public List<Unit> Units => _units;
+
     private void Start()
     {
         _cells =new List<Cell>();
@@ -22,6 +24,21 @@ public class Squad : MonoBehaviour
     public void ReturnUnits()
     {
        DeleteUnits();
+    }
+
+    public bool CheckNumberUnits()
+    {
+        _cells = _gridGenerator.Cells;
+        _units = TryGetUnits(_cells);
+
+        if (_units.Count > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void HideUnitsLevel()

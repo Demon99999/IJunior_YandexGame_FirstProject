@@ -5,11 +5,13 @@ using UnityEngine.AI;
 public class ShootState : UnitState
 {
     private const string Shoots = "Shoot";
+    private const string ShootBullet = "ShootGun";
 
     [SerializeField] private Bullet _bullet;
     [SerializeField] private Transform _shootPoint;
     [SerializeField] private Transform _partToRotate;
     [SerializeField] private float _rotationSpeed;
+    [SerializeField] private ParticleSystem _particleSystem;
 
     private Unit _unit;
     private float _currentTime = 0;
@@ -48,5 +50,7 @@ public class ShootState : UnitState
     {
         Bullet bullet = Instantiate(_bullet, _shootPoint.position, _shootPoint.rotation);
         bullet.Initialize(_unit.Card.Damage, _unit.Card.ParticleSystem);
+        _particleSystem.Play();
+        Animator.SetTrigger(ShootBullet);
     }
 }

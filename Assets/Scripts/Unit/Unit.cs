@@ -11,7 +11,8 @@ public class Unit : MonoBehaviour
     private Vector3 _savePosition;
     private Unit _saveUnit;
     private Vector3 _target;
-    
+    private int _maxUnitGrade = 5;
+
     public UnitDrag Drag { get; private set; }
     public Cell Point { get; set; }
     public UnitCard Card => _unitCard;
@@ -46,7 +47,7 @@ public class Unit : MonoBehaviour
                 {
                     if (unit.Drag.Dragging)
                     {
-                        if (unit._unitCard.Grade <= 7)
+                        if (unit._unitCard.Grade < _maxUnitGrade)
                         {
                             _saveUnit = unit;
                             unit.Drag.OnDragging += DragEnd;
