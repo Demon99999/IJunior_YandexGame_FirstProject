@@ -1,55 +1,74 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using YandexSDK;
 
-public class SettingMenuScreen : Screen
+namespace UI
 {
-    [SerializeField] private Button _exitButton;
-    [SerializeField] private Button _russianButton;
-    [SerializeField] private Button _englishButton;
-    [SerializeField] private Button _turkishButton;
-    [SerializeField] private Localization _localization;
-
-    private const string Ru = "Ru";
-    private const string En = "En";
-    private const string Tr = "Tr";
-
-    public event UnityAction ExitButtonClick;
-
-    private void OnEnable()
+    public class SettingMenuScreen : Screen
     {
-        _exitButton.onClick.AddListener(OnExitButton);
-        _russianButton.onClick.AddListener(SetLanguagesRu);
-        _englishButton.onClick.AddListener(SetLanguagesEn);
-        _turkishButton.onClick.AddListener(SetLanguagesTr);
-    }
+        private const string Ru = "Ru";
+        private const string En = "En";
+        private const string Tr = "Tr";
 
-    private void OnDisable()
-    {
-        _exitButton.onClick.RemoveListener(OnExitButton);
-        _russianButton.onClick.RemoveListener(SetLanguagesRu);
-        _englishButton.onClick.RemoveListener(SetLanguagesEn);
-        _turkishButton.onClick.RemoveListener(SetLanguagesTr);
-    }
+        [SerializeField] private Button _exitButton;
+        [SerializeField] private Button _russianButton;
+        [SerializeField] private Button _englishButton;
+        [SerializeField] private Button _turkishButton;
+        [SerializeField] private Localization _localization;
+        [SerializeField] private GameHandler _gameHandler;
 
-    private void OnExitButton()
-    {
-        ExitButtonClick?.Invoke();
-        CloseScreen();
-    }
+        public event UnityAction ExitButtonClick;
 
-    private void SetLanguagesRu()
-    {
-        _localization.SetLanguage(Ru);
-    }
+        private void OnEnable()
+        {
+            _exitButton.onClick.AddListener(OnExitButton);
+            _russianButton.onClick.AddListener(SetLanguagesRu);
+            _englishButton.onClick.AddListener(SetLanguagesEn);
+            _turkishButton.onClick.AddListener(SetLanguagesTr);
 
-    private void SetLanguagesEn()
-    {
-        _localization.SetLanguage(En);
-    }
+            _gameHandler.OpenSettingMenu += OnOpen;
+        }
 
-    private void SetLanguagesTr()
-    {
-        _localization.SetLanguage(Tr);
+        private void OnDisable()
+        {
+            _exitButton.onClick.RemoveListener(OnExitButton);
+            _russianButton.onClick.RemoveListener(SetLanguagesRu);
+            _englishButton.onClick.RemoveListener(SetLanguagesEn);
+            _turkishButton.onClick.RemoveListener(SetLanguagesTr);
+
+            _gameHandler.OpenSettingMenu -= OnOpen;
+        }
+
+        private void OnExitButton()
+        {
+            ExitButtonClick?.Invoke();
+            CloseScreen();
+        }
+
+        private void SetLanguagesRu()
+        {
+            _localization.SetLanguage(Ru);
+        }
+
+        private void SetLanguagesEn()
+        {
+            _localization.SetLanguage(En);
+        }
+
+        private void SetLanguagesTr()
+        {
+            _localization.SetLanguage(Tr);
+        }
+
+        private void OnOpen()
+        {
+            OpenScreen();
+        }
+
+        private void OnClose()
+        {
+            CloseScreen();
+        }
     }
 }

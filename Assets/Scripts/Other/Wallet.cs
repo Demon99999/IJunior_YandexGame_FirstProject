@@ -1,46 +1,50 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class Wallet : MonoBehaviour
+namespace GameLogic
 {
-    private int _deltaMoney = 300;
-    public static int Money { get; private set; }
-    
-    private static int _allMoneyReceived;
-
-    public static int AllMoneyReceived => _allMoneyReceived;
-
-    public static event UnityAction<int> MoneyChanged;
-
-    private void Awake()
+    public class Wallet : MonoBehaviour
     {
-        Money = _deltaMoney;
-        _allMoneyReceived = _deltaMoney;
-        MoneyChanged?.Invoke(Money);
-    }
+        private int _deltaMoney = 300;
 
-    private void Start()
-    {
-        MoneyChanged?.Invoke(Money);
-    }
+        private int _allMoneyReceived;
 
-    public static void AddMoney(int money)
-    {
-        Money += money;
-        _allMoneyReceived += money;
-        MoneyChanged?.Invoke(Money);
-    }
+        public int Money { get; private set; }
 
-    public static void RemoveMoney(int money)
-    {
-        Money += money;
-        MoneyChanged?.Invoke(Money);
-    }
+        public event Action<int> MoneyChanged;
 
-    public static void InitGold(int gold, int allMoneyReceived)
-    {
-        Money = gold;
-        _allMoneyReceived = allMoneyReceived;
-        MoneyChanged?.Invoke(Money);
+        public int AllMoneyReceived => _allMoneyReceived;
+
+        private void Awake()
+        {
+            Money = _deltaMoney;
+            _allMoneyReceived = _deltaMoney;
+            MoneyChanged?.Invoke(Money);
+        }
+
+        private void Start()
+        {
+            MoneyChanged?.Invoke(Money);
+        }
+
+        public void AddMoney(int money)
+        {
+            Money += money;
+            _allMoneyReceived += money;
+            MoneyChanged?.Invoke(Money);
+        }
+
+        public void RemoveMoney(int money)
+        {
+            Money += money;
+            MoneyChanged?.Invoke(Money);
+        }
+
+        public void InitGold(int gold, int allMoneyReceived)
+        {
+            Money = gold;
+            _allMoneyReceived = allMoneyReceived;
+            MoneyChanged?.Invoke(Money);
+        }
     }
 }

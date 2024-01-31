@@ -1,57 +1,64 @@
 using UnityEngine;
 
-public class EnemyState : MonoBehaviour
+namespace EnemyLogic
 {
-    [SerializeField] private EnemyTransition[] _transitions;
-
-    public StrongPoint StrongPoint { get; private set; }
-    public Animator Animator { get; private set; }
-    public Rigidbody Rigidbody { get; private set; }
-    public EnemyTransition[] Transitions => _transitions;
-    public Transform Target;
-
-    public void Enter(StrongPoint strongPoint, Animator animator, Rigidbody rigidbody, Transform target)
+    public class EnemyState : MonoBehaviour
     {
-        if (enabled == false)
+        [SerializeField] private EnemyTransition[] _transitions;
+
+        public EnemyTarget EnemyTarget { get; private set; }
+
+        public Animator Animator { get; private set; }
+
+        public Rigidbody Rigidbody { get; private set; }
+
+        public Transform Target { get; private set; }
+
+        public EnemyTransition[] Transitions => _transitions;
+
+        public void Enter(EnemyTarget enemyTarget, Animator animator, Rigidbody rigidbody, Transform target)
         {
-            StrongPoint = strongPoint;
-            Animator = animator;
-            Rigidbody = rigidbody;
-            Target = target;
-
-            enabled = true;
-
-            foreach (var transition in _transitions)
+            if (enabled == false)
             {
-                transition.enabled = true;
-                transition.Init(StrongPoint, Target);
-            }
-        }
-    }
+                EnemyTarget = enemyTarget;
+                Animator = animator;
+                Rigidbody = rigidbody;
+                Target = target;
 
-    public EnemyState GetNextState()
-    {
-        foreach (var transition in _transitions)
-        {
-            if (transition.NeedTransit)
-            {
-                return transition.TargetState;
+                enabled = true;
+
+                foreach (var transition in _transitions)
+                {
+                    transition.enabled = true;
+                    transition.Init(EnemyTarget, Target);
+                }
             }
         }
 
-        return null;
-    }
-
-    public void Exit()
-    {
-        if (enabled == true)
+        public EnemyState GetNextState()
         {
             foreach (var transition in _transitions)
             {
-                transition.enabled = false;
+                if (transition.NeedTransit)
+                {
+                    return transition.TargetState;
+                }
             }
+
+            return null;
         }
 
-        enabled = false;
+        public void Exit()
+        {
+            if (enabled == true)
+            {
+                foreach (var transition in _transitions)
+                {
+                    transition.enabled = false;
+                }
+            }
+
+            enabled = false;
+        }
     }
 }

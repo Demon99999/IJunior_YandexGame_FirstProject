@@ -1,5 +1,7 @@
-internal static class ScenesNames
+namespace Constants
 {
-    public const string Start= "Start";
+    internal static class ScenesNames
+    {
+        public const string Start = "Start";
+    }
 }
-   

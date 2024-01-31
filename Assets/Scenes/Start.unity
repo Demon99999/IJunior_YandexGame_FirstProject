@@ -3480,6 +3480,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8230f08aa7c92c46a63d9705dc02532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _victoryScreen: {fileID: 0}
+  _defeatScreen: {fileID: 0}
+  _battleScreen: {fileID: 0}
+  _gameLoader: {fileID: 1547509143}
 --- !u!1001 &980126790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5333,6 +5337,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74c2ea2e5a1740468616f54a3957212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameLoader: {fileID: 1547509143}
 --- !u!114 &1547509142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5350,6 +5355,10 @@ MonoBehaviour:
   _unitCards: []
   _spawner: {fileID: 0}
   _sceneManage: {fileID: 1547509141}
+  _wallet: {fileID: 0}
+  _victoryScreen: {fileID: 0}
+  _defeatScreen: {fileID: 0}
+  _gameLoader: {fileID: 1547509143}
 --- !u!114 &1547509143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5368,7 +5377,7 @@ MonoBehaviour:
   _leaderboardButton: {fileID: 1048109289}
   _saveSystem: {fileID: 1547509142}
   _settingMenuScreen: {fileID: 1165701269800612409}
-  _leaderboardScrScreen: {fileID: 7228113667118139926}
+  _leaderboardScreen: {fileID: 7228113667118139926}
   _sceneNext: {fileID: 1547509141}
   _yandexAds: {fileID: 963194232}
 --- !u!81 &1547509144
@@ -6876,6 +6885,10 @@ MonoBehaviour:
   _unitCards: []
   _spawner: {fileID: 0}
   _sceneManage: {fileID: 0}
+  _wallet: {fileID: 0}
+  _victoryScreen: {fileID: 0}
+  _defeatScreen: {fileID: 0}
+  _gameLoader: {fileID: 1547509143}
 --- !u!4 &2054429594
 Transform:
   m_ObjectHideFlags: 0
@@ -7784,6 +7797,8 @@ MonoBehaviour:
   _englishButton: {fileID: 7113125827453804881}
   _turkishButton: {fileID: 3890362078418067728}
   _localization: {fileID: 963194231}
+  _gameHandler: {fileID: 0}
+  _gameLoader: {fileID: 1547509143}
 --- !u!1 &1297292957854458690
 GameObject:
   m_ObjectHideFlags: 0
@@ -10690,7 +10705,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 4339982095323041024}
-  _moveSpeed: 7
 --- !u!1 &5047367410628574502
 GameObject:
   m_ObjectHideFlags: 0
@@ -12123,6 +12137,10 @@ PrefabInstance:
       propertyPath: _panel
       value: 
       objectReference: {fileID: 7228113667118139927}
+    - target: {fileID: 3143860783012810955, guid: fc3eb5bd6835bec45bb00b9537b17ee7, type: 3}
+      propertyPath: _gameLoader
+      value: 
+      objectReference: {fileID: 1547509143}
     - target: {fileID: 4185990879172441959, guid: fc3eb5bd6835bec45bb00b9537b17ee7, type: 3}
       propertyPath: m_Name
       value: Leaderboard Screen

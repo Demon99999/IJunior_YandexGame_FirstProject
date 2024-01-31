@@ -1,32 +1,36 @@
+using Constants;
+using EnemyLogic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class FinishScreen : Screen
+namespace UI
 {
-    [SerializeField] private Button _switchingButton;
-    [SerializeField] private Spawner _spawner;
-
-    public event UnityAction SwitchingButtonClick;
-
-    private void OnEnable()
+    public class FinishScreen : Screen
     {
-        _spawner.CurrentLevelExceedsCount += OpenScreen;
-        _switchingButton.onClick.AddListener(OnSwitchingButton);
-    }
+        [SerializeField] private Button _switchingButton;
+        [SerializeField] private Spawner _spawner;
 
-    private void OnDisable()
-    {
-        _spawner.CurrentLevelExceedsCount -= OpenScreen;
-        _switchingButton.onClick.RemoveListener(OnSwitchingButton);
-    }
+        public event UnityAction SwitchingButtonClick;
 
-    public void OnSwitchingButton()
-    {
-        SwitchingButtonClick?.Invoke();
-        SceneManager.LoadScene(ScenesNames.Start);
-        CloseScreen();
+        private void OnEnable()
+        {
+            _spawner.CurrentLevelExceedsCount += OpenScreen;
+            _switchingButton.onClick.AddListener(OnSwitchingButton);
+        }
+
+        private void OnDisable()
+        {
+            _spawner.CurrentLevelExceedsCount -= OpenScreen;
+            _switchingButton.onClick.RemoveListener(OnSwitchingButton);
+        }
+
+        public void OnSwitchingButton()
+        {
+            SwitchingButtonClick?.Invoke();
+            SceneManager.LoadScene(ScenesNames.Start);
+            CloseScreen();
+        }
     }
 }
-

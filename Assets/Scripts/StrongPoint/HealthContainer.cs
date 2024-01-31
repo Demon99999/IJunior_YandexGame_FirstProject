@@ -1,43 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using UI;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class HealthContainer : MonoBehaviour
+namespace EnemyLogic
 {
-    [SerializeField] private int _health;
-
-    private int _maxHealth;
-
-    public event UnityAction<int> HealthChanged;
-    public event UnityAction MaxHealthChanged;
-    public event UnityAction Died;
-
-    public int Health => _health;
-    public int MaxHealth => _maxHealth;
-
-    private void Awake()
+    public class HealthContainer : MonoBehaviour
     {
-        _maxHealth = _health;
-        //HealthChanged?.Invoke(_health);
-    }
+        [SerializeField] private int _health;
+        [SerializeField] private VictoryScreen _victoryScreen;
+        [SerializeField] private DefeatScreen _defeatScreen;
 
-    public void TakeDamage(int damageAmount)
-    {
-        _health -= damageAmount;
+        private int _maxHealth;
 
-        if (_health <= 0)
+        public event Action<int> HealthChanged;
+
+        public event Action MaxHealthChanged;
+
+        public event Action Died;
+
+        public int Health => _health;
+
+        public int MaxHealth => _maxHealth;
+
+        private void Awake()
         {
-            _health = 0;
-            Died?.Invoke();
+            _maxHealth = _health;
         }
 
-        HealthChanged?.Invoke(_health);
-    }
+        private void OnEnable()
+        {
+            _victoryScreen.ResumeButtonClick += OnResetHealth;
+            _victoryScreen.BonusButtonClick += OnResetHealth;
+            _defeatScreen.RestartButtonClick += OnResetHealth;
+            _defeatScreen.BonusButtonClick += OnResetHealth;
+        }
 
-    public void ResetHealth()
-    {
-        _health = _maxHealth;
-        MaxHealthChanged?.Invoke();
+        private void OnDisable()
+        {
+            _victoryScreen.ResumeButtonClick -= OnResetHealth;
+            _victoryScreen.BonusButtonClick -= OnResetHealth;
+            _defeatScreen.RestartButtonClick -= OnResetHealth;
+            _defeatScreen.BonusButtonClick -= OnResetHealth;
+        }
+
+        public void TakeDamage(int damageAmount)
+        {
+            _health -= damageAmount;
+
+            if (_health <= 0)
+            {
+                _health = 0;
+                Died?.Invoke();
+            }
+
+            HealthChanged?.Invoke(_health);
+        }
+
+        public void OnResetHealth()
+        {
+            _health = _maxHealth;
+            MaxHealthChanged?.Invoke();
+        }
     }
 }

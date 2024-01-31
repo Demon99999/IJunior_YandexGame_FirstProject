@@ -1,24 +1,28 @@
+using GameLogic;
 using TMPro;
 using UnityEngine;
 
-public class RewardsScore : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private LevelReward _levelReward;
-    [SerializeField] private TMP_Text _gold;
-    
-    private void OnEnable()
+    public class RewardsScore : MonoBehaviour
     {
-        _gold.text = _levelReward.GoldCount.ToString();
-        _levelReward.GoldChanged += OnGoldChanged;
-    }
+        [SerializeField] private LevelReward _levelReward;
+        [SerializeField] private TMP_Text _gold;
 
-    private void OnDisable()
-    {
-        _levelReward.GoldChanged -= OnGoldChanged;
-    }
+        private void OnEnable()
+        {
+            _gold.text = _levelReward.GoldCount.ToString();
+            _levelReward.GoldChanged += OnGoldChanged;
+        }
 
-    private void OnGoldChanged(int score)
-    {
-        _gold.text = score.ToString();
+        private void OnDisable()
+        {
+            _levelReward.GoldChanged -= OnGoldChanged;
+        }
+
+        private void OnGoldChanged(int score)
+        {
+            _gold.text = score.ToString();
+        }
     }
 }

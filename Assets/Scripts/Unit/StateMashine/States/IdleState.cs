@@ -1,16 +1,20 @@
+using EnemyLogic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class IdleState : UnitState
+namespace UnitLogic
 {
-    [SerializeField] private EnemyHandler _enemyHandler;
-
-    private NavMeshAgent _navMeshAgent;
-    
-    private void Start()
+    public class IdleState : UnitState
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _navMeshAgent.enabled = false;
-        _navMeshAgent.updateRotation = true;
+        [SerializeField] private EnemyHandler _enemyHandler;
+
+        private NavMeshAgent _navMeshAgent;
+
+        private void Start()
+        {
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+            _navMeshAgent.enabled = false;
+            _navMeshAgent.updateRotation = true;
+        }
     }
 }

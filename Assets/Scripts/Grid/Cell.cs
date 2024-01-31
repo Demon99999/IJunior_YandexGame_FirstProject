@@ -1,22 +1,27 @@
 using UnityEngine;
 
-public class Cell : MonoBehaviour
+namespace GameLogic
 {
-    public bool IsEmployed { get; private set; } = false;
-
-    public void ChangeValue()
+    public class Cell : MonoBehaviour
     {
-        IsEmployed = !IsEmployed;
-    }
+        [SerializeField] private CellRenderer _cellRenderer;
 
-    public void Hide()
-    {
-        gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
-    }
+        public bool IsEmployed { get; private set; } = false;
 
-    public void Show()
-    {
-        gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
-        IsEmployed = false;
+        public void ChangeValue()
+        {
+            IsEmployed = !IsEmployed;
+        }
+
+        public void Hide()
+        {
+            _cellRenderer.Hide();
+        }
+
+        public void Show()
+        {
+            _cellRenderer.Show();
+            IsEmployed = false;
+        }
     }
 }

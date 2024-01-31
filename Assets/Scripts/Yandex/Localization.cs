@@ -1,45 +1,48 @@
-using Lean.Localization;
+using System;
 using System.Collections.Generic;
 using Agava.YandexGames;
+using Lean.Localization;
 using UnityEngine;
-using UnityEngine.Events;
 using PlayerPrefs = UnityEngine.PlayerPrefs;
 
-public class Localization : MonoBehaviour
+namespace YandexSDK
 {
-    [SerializeField] private LeanLocalization _leanLocalization;
-
-    private const string Language = "Language";
-
-    private string _currentLanguage;
-
-    public event UnityAction LanguageChanged;
-
-    private Dictionary<string, string> _language = new Dictionary<string, string>()
+    public class Localization : MonoBehaviour
     {
-        { "Ru", "Russian" },
-        { "En", "English" },
-        { "Tr", "Turkish" },
-    };
+        private const string Language = "Language";
 
-    private void Awake()
-    {
+        [SerializeField] private LeanLocalization _leanLocalization;
+
+        private string _currentLanguage;
+
+        private Dictionary<string, string> _language = new Dictionary<string, string>()
+        {
+            { "Ru", "Russian" },
+            { "En", "English" },
+            { "Tr", "Turkish" },
+        };
+
+        public event Action LanguageChanged;
+
+        private void Awake()
+        {
 #if UNITY_WEBGL && !UNITY_EDITOR
         if (PlayerPrefs.HasKey(Language))
             SetLanguage(Language);
         else
             SetLanguage(YandexGamesSdk.Environment.i18n.lang);
 #endif
-    }
+        }
 
-    public void SetLanguage(string value)
-    {
-        if (_language.ContainsKey(value))
+        public void SetLanguage(string value)
         {
-            _leanLocalization.SetCurrentLanguage(_language[value]);
-            _currentLanguage = value;
-            LanguageChanged?.Invoke();
-            PlayerPrefs.SetString(Language, _currentLanguage);
+            if (_language.ContainsKey(value))
+            {
+                _leanLocalization.SetCurrentLanguage(_language[value]);
+                _currentLanguage = value;
+                LanguageChanged?.Invoke();
+                PlayerPrefs.SetString(Language, _currentLanguage);
+            }
         }
     }
 }

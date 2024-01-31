@@ -1,55 +1,72 @@
+using System;
+using EnemyLogic;
+using UI;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class LevelReward : MonoBehaviour
+namespace GameLogic
 {
-    [SerializeField] private EnemyHandler _enemyHandler;
-    [SerializeField] private Spawner _spawner;
-    
-    private int _goldCount = 0;
-    private int _goldForAdvertising = 50;
-    private int _goldForAdvertisingForDefeat = 100;
-    private int _doubleMultiplier = 2;
-
-    public event UnityAction<int> GoldChanged;
-
-    public int GoldCount => _goldCount;
-
-    private void OnEnable()
+    public class LevelReward : MonoBehaviour
     {
-        _enemyHandler.AllEnemiesKilled += CalculateReward;
-    }
+        [SerializeField] private EnemyHandler _enemyHandler;
+        [SerializeField] private Spawner _spawner;
+        [SerializeField] private Wallet _wallet;
+        [SerializeField] private VictoryScreen _victoryScreen;
+        [SerializeField] private DefeatScreen _defeatScreen;
+        [SerializeField] private BattleScreen _battleScreen;
 
-    private void OnDisable()
-    {
-        _enemyHandler.AllEnemiesKilled -= CalculateReward;
-    }
+        private int _goldCount = 0;
+        private int _goldForAdvertising = 50;
+        private int _goldForAdvertisingForDefeat = 100;
+        private int _doubleMultiplier = 2;
 
-    public void CalculateReward()
-    {
-        _goldCount = _spawner.Level.GoldReward;
-        GoldChanged?.Invoke(_goldCount);
-    }
+        public event Action<int> GoldChanged;
 
-    public void ClaimReward()
-    {
-        Wallet.AddMoney(_goldCount);
-        _goldCount = 0;
-    }
+        public int GoldCount => _goldCount;
 
-    public void ClaimDoubleReward()
-    {
-        Wallet.AddMoney(_goldCount * _doubleMultiplier);
-        _goldCount = 0;
-    }
+        private void OnEnable()
+        {
+            _enemyHandler.AllEnemiesKilled += OnCalculateReward;
+            _victoryScreen.ResumeButtonClick += OnClaimReward;
+            _victoryScreen.BonusButtonClick += OnClaimDoubleReward;
+            _defeatScreen.BonusButtonClick += OnClaimGoldForAdvertisingForDefeat;
+            _battleScreen.RewardButtonClick += OnClaimGoldForAdvertising;
+        }
 
-    public void ClaimGoldForAdvertising()
-    {
-        Wallet.AddMoney(_goldForAdvertising);
-    }
+        private void OnDisable()
+        {
+            _enemyHandler.AllEnemiesKilled -= OnCalculateReward;
+            _victoryScreen.ResumeButtonClick -= OnClaimReward;
+            _victoryScreen.BonusButtonClick -= OnClaimDoubleReward;
+            _defeatScreen.BonusButtonClick -= OnClaimGoldForAdvertisingForDefeat;
+            _battleScreen.RewardButtonClick -= OnClaimGoldForAdvertising;
+        }
 
-    public void ClaimGoldForAdvertisingForDefeat()
-    {
-        Wallet.AddMoney(_goldForAdvertisingForDefeat);
+        private void OnCalculateReward()
+        {
+            _goldCount = _spawner.Level.GoldReward;
+            GoldChanged?.Invoke(_goldCount);
+        }
+
+        private void OnClaimReward()
+        {
+            _wallet.AddMoney(_goldCount);
+            _goldCount = 0;
+        }
+
+        private void OnClaimDoubleReward()
+        {
+            _wallet.AddMoney(_goldCount * _doubleMultiplier);
+            _goldCount = 0;
+        }
+
+        private void OnClaimGoldForAdvertising()
+        {
+            _wallet.AddMoney(_goldForAdvertising);
+        }
+
+        private void OnClaimGoldForAdvertisingForDefeat()
+        {
+            _wallet.AddMoney(_goldForAdvertisingForDefeat);
+        }
     }
 }

@@ -2427,6 +2427,8 @@ MonoBehaviour:
   _prefabRifl: {fileID: 5433475818606946692, guid: ead70cb4240a46e4c996521c3e69c624, type: 3}
   _prefabBazuka: {fileID: 2332559344475807742, guid: cb2a3bb739edc374ea5e0544c7630b04, type: 3}
   _gridGenerator: {fileID: 398397343}
+  _wallet: {fileID: 1251225993}
+  _battleScreen: {fileID: 679101575}
 --- !u!4 &352174424
 Transform:
   m_ObjectHideFlags: 0
@@ -2713,9 +2715,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridSize: {x: 4, y: 5}
-  _prefab: {fileID: 1503899981030253870, guid: 60dbbd30b3f5c024a9e3e4a070047f53, type: 3}
+  _prefab: {fileID: 3757007466823119481, guid: 60dbbd30b3f5c024a9e3e4a070047f53, type: 3}
   _offset: 0.2
   _container: {fileID: 398397344}
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
+  _battleScreen: {fileID: 0}
 --- !u!4 &398397344
 Transform:
   m_ObjectHideFlags: 0
@@ -3276,6 +3281,9 @@ MonoBehaviour:
   _gridGenerator: {fileID: 398397343}
   _unitSpawner: {fileID: 352174423}
   _aimCursor: {fileID: 1255962705}
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
+  _battleScreen: {fileID: 679101575}
 --- !u!4 &520150766
 Transform:
   m_ObjectHideFlags: 0
@@ -3823,6 +3831,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 520150765}
     - target: {fileID: 1700098470572446610, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
+      propertyPath: _wallet
+      value: 
+      objectReference: {fileID: 1251225993}
+    - target: {fileID: 1700098470572446610, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
       propertyPath: _aimCursor
       value: 
       objectReference: {fileID: 1255962705}
@@ -3834,6 +3846,10 @@ PrefabInstance:
       propertyPath: _saveSystem
       value: 
       objectReference: {fileID: 1251225995}
+    - target: {fileID: 1700098470572446610, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
+      propertyPath: _gameHandler
+      value: 
+      objectReference: {fileID: 557109184779078878}
     - target: {fileID: 1700098470572446610, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
       propertyPath: _groundAudio
       value: 
@@ -4381,14 +4397,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1598645143217954578, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 679101582}
   m_SourcePrefab: {fileID: 100100000, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
 --- !u!114 &679101575 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1700098470572446610, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
   m_PrefabInstance: {fileID: 679101574}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 679101581}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5306d7b5e4bb7a546a49432af363667b, type: 3}
@@ -4399,6 +4418,73 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3783853933475834165, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
   m_PrefabInstance: {fileID: 679101574}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &679101577 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7827670103828068608, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
+  m_PrefabInstance: {fileID: 679101574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &679101578 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4475624700545953545, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
+  m_PrefabInstance: {fileID: 679101574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &679101579 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4187540320319125652, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
+  m_PrefabInstance: {fileID: 679101574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &679101580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2320770777743222251, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
+  m_PrefabInstance: {fileID: 679101574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &679101581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1598645143217954578, guid: 3feeba597a8991d4f8d1caf5e672c13a, type: 3}
+  m_PrefabInstance: {fileID: 679101574}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &679101582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679101581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbbf49d7b5510f41a8b65a42bf0db36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buySniperText: {fileID: 679101578}
+  _buyRiflText: {fileID: 679101579}
+  _buyBazukaText: {fileID: 679101580}
+  _walletMoneyText: {fileID: 679101577}
+  _unitSpawner: {fileID: 352174423}
+  _wallet: {fileID: 1251225993}
 --- !u!1001 &700631272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5207,6 +5293,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 100
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
 --- !u!1 &913440351
 GameObject:
   m_ObjectHideFlags: 0
@@ -5599,6 +5687,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8230f08aa7c92c46a63d9705dc02532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
+  _battleScreen: {fileID: 679101575}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6634,6 +6725,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab7ad460c58e0c418cb66458adc4e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
+  _battleScreen: {fileID: 679101575}
 --- !u!4 &1251225992
 Transform:
   m_ObjectHideFlags: 0
@@ -6675,6 +6769,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyHandler: {fileID: 1251225991}
   _spawner: {fileID: 1933239494}
+  _wallet: {fileID: 1251225993}
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
+  _battleScreen: {fileID: 679101575}
 --- !u!114 &1251225995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6707,6 +6805,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e78686242f3c2f047b774a82093201ca, type: 2}
   _spawner: {fileID: 1933239494}
   _sceneManage: {fileID: 1251225990}
+  _wallet: {fileID: 1251225993}
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
 --- !u!1001 &1255962704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6719,6 +6820,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cursor
       objectReference: {fileID: 0}
+    - target: {fileID: 3151974824505365870, guid: b834b040bc528454a83fa3f0a8e36cd4, type: 3}
+      propertyPath: _battleScreen
+      value: 
+      objectReference: {fileID: 679101575}
+    - target: {fileID: 3151974824505365870, guid: b834b040bc528454a83fa3f0a8e36cd4, type: 3}
+      propertyPath: _defeatScreen
+      value: 
+      objectReference: {fileID: 2163777654368640587}
+    - target: {fileID: 3151974824505365870, guid: b834b040bc528454a83fa3f0a8e36cd4, type: 3}
+      propertyPath: _victoryScreen
+      value: 
+      objectReference: {fileID: 1515954060987162165}
     - target: {fileID: 3151974824505365870, guid: b834b040bc528454a83fa3f0a8e36cd4, type: 3}
       propertyPath: _layerMask.m_Bits
       value: 192
@@ -6975,6 +7088,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3143860783012810955, guid: fc3eb5bd6835bec45bb00b9537b17ee7, type: 3}
+      propertyPath: _gameHandler
+      value: 
+      objectReference: {fileID: 557109184779078878}
     - target: {fileID: 4185990879172441959, guid: fc3eb5bd6835bec45bb00b9537b17ee7, type: 3}
       propertyPath: m_Name
       value: Leaderboard Screen
@@ -8903,7 +9020,8 @@ MonoBehaviour:
   - {fileID: 2081509575}
   - {fileID: 175317881}
   _template: {fileID: 3102720530830503098, guid: 8f8ded6c4f5f49a41bfd06e1e0b97bbf, type: 3}
-  _container: {fileID: 1542231394}
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
 --- !u!1 &1787411422
 GameObject:
   m_ObjectHideFlags: 0
@@ -9572,6 +9690,9 @@ MonoBehaviour:
   _virtualCameras:
   - {fileID: 43334980}
   - {fileID: 918359580}
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
+  _battleScreen: {fileID: 679101575}
 --- !u!4 &1901399832
 Transform:
   m_ObjectHideFlags: 0
@@ -9698,8 +9819,10 @@ MonoBehaviour:
   - {fileID: 108276236}
   - {fileID: 1036898053}
   - {fileID: 1956052034}
-  _strongPoint: {fileID: 913340674}
+  _enemyTarget: {fileID: 913340674}
   _spawnBarrels: {fileID: 1766853728}
+  _victoryScreen: {fileID: 1515954060987162165}
+  _defeatScreen: {fileID: 2163777654368640587}
 --- !u!1 &1934132126
 GameObject:
   m_ObjectHideFlags: 0
@@ -10765,12 +10888,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88bfecda32962fe4eb87fe08a76203e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttleScreen: {fileID: 679101575}
+  _battleScreen: {fileID: 679101575}
   _victoryScreen: {fileID: 1515954060987162165}
   _fightScreen: {fileID: 1485139027848883480}
   _defeatScreen: {fileID: 2163777654368640587}
   _settingMenuScreen: {fileID: 2995215820767892955}
-  _leaderboardScr: {fileID: 1301422754}
+  _leaderboardScreen: {fileID: 1301422754}
 --- !u!114 &583336142410453510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11650,6 +11773,7 @@ MonoBehaviour:
   _healthContainer: {fileID: 913340675}
   _slider: {fileID: 136939014}
   _enemyHandler: {fileID: 1251225991}
+  _gameHandler: {fileID: 557109184779078878}
 --- !u!1 &1513102126770416138
 GameObject:
   m_ObjectHideFlags: 0
@@ -11685,17 +11809,7 @@ MonoBehaviour:
   _resumeButton: {fileID: 7165323557595813456}
   _bonusButton: {fileID: 1116376079}
   _enemyHandler: {fileID: 1251225991}
-  _healthContainer: {fileID: 913340675}
-  _levelReward: {fileID: 1251225994}
-  _spawner: {fileID: 1933239494}
-  _squad: {fileID: 520150765}
-  _cameraChanger: {fileID: 1901399831}
-  _gridGenerator: {fileID: 398397343}
-  _aimCursor: {fileID: 1255962705}
-  _saveSystem: {fileID: 1251225995}
-  _unitSpawner: {fileID: 352174423}
-  _spawnBarrels: {fileID: 1766853728}
-  _yandexAds: {fileID: 963194230}
+  _gameHandler: {fileID: 557109184779078878}
 --- !u!1 &1540035183325718817
 GameObject:
   m_ObjectHideFlags: 0
@@ -12013,18 +12127,8 @@ MonoBehaviour:
   _panel: {fileID: 0}
   _bonusButton: {fileID: 8114275836641953474}
   _restartButton: {fileID: 2376987797644892748}
-  _enemyHandler: {fileID: 1251225991}
   _healthContainer: {fileID: 913340675}
-  _levelReward: {fileID: 1251225994}
-  _spawner: {fileID: 1933239494}
-  _squad: {fileID: 520150765}
-  _cameraChanger: {fileID: 1901399831}
-  _gridGenerator: {fileID: 398397343}
-  _aimCursor: {fileID: 1255962705}
-  _saveSystem: {fileID: 1251225995}
-  _unitSpawner: {fileID: 352174423}
-  _spawnBarrels: {fileID: 1766853728}
-  _yandexAds: {fileID: 963194230}
+  _gameHandler: {fileID: 557109184779078878}
 --- !u!114 &2207408198598417546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12673,6 +12777,7 @@ MonoBehaviour:
   _englishButton: {fileID: 371459865}
   _turkishButton: {fileID: 1047878483}
   _localization: {fileID: 1048665591620212880}
+  _gameHandler: {fileID: 557109184779078878}
 --- !u!114 &3025212082580516142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13083,6 +13188,7 @@ MonoBehaviour:
   _fightClip: {fileID: 8300000, guid: d8dcaca0efb73254f98786818c61850f, type: 3}
   _enemyHandler: {fileID: 1251225991}
   _healthContainer: {fileID: 913340675}
+  _battleScreen: {fileID: 679101575}
 --- !u!114 &3499034089327165001
 MonoBehaviour:
   m_ObjectHideFlags: 0

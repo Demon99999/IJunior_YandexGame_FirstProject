@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class DistanceTransition : EnemyTransition
+namespace EnemyLogic
 {
-    [SerializeField] private float _transitionRange;
-    [SerializeField] private float _rangedSpread;
-
-    private void Start()
+    public class DistanceTransition : EnemyTransition
     {
-        _transitionRange += Random.Range(-_rangedSpread, _rangedSpread);
-    }
+        [SerializeField] private float _transitionRange;
+        [SerializeField] private float _rangedSpread;
 
-    private void Update()
-    {
-        if (StrongPoint != null)
+        private void Start()
         {
-            if (Vector3.Distance(Target.position, transform.position) < _transitionRange)
-                NeedTransit = true;
+            _transitionRange += Random.Range(-_rangedSpread, _rangedSpread);
+        }
+
+        private void Update()
+        {
+            if (EnemyTarget != null)
+            {
+                if (Vector3.Distance(Target.position, transform.position) < _transitionRange)
+                    NeedTransit = true;
+            }
         }
     }
 }

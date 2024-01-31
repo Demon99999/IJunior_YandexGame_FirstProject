@@ -1,27 +1,30 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Unit))]
-public class MoveTransition : UnitTransition
+namespace UnitLogic
 {
-    private Unit _unit;
-
-    private void Awake()
+    [RequireComponent(typeof(Unit))]
+    public class MoveTransition : UnitTransition
     {
-        _unit = GetComponent<Unit>();
-    }
+        private Unit _unit;
 
-    private void OnEnable()
-    {
-        _unit.Moving += OnMoving;
-    }
+        private void Awake()
+        {
+            _unit = GetComponent<Unit>();
+        }
 
-    private void OnDisable()
-    {
-        _unit.Moving -= OnMoving;
-    }
+        private void OnEnable()
+        {
+            _unit.Moving += OnMoving;
+        }
 
-    private void OnMoving()
-    {
-        NeedTransit = true;
+        private void OnDisable()
+        {
+            _unit.Moving -= OnMoving;
+        }
+
+        private void OnMoving()
+        {
+            NeedTransit = true;
+        }
     }
 }

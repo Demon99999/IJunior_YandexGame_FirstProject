@@ -1,113 +1,117 @@
 using System;
+using GameLogic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider),typeof(Animator),typeof(Collider))]
-public class UnitDrag : MonoBehaviour
+namespace UnitLogic
 {
-    private const string Fly = "Fly";
-    private const string Idle = "Idle";
-
-    [SerializeField] private LayerMask _draggingLayer;
-
-    private Vector3 _savePosition;
-    private Collider _collider;
-    private Vector3 _defaultScale;
-    private Vector3 _dragScale = new Vector3(0.5f, 0.5f, 0.5f);
-    private bool _combining;
-
-    private Cell _savePoint;
-    private Animator _animator;
-
-    public bool Dragging { get; private set; }
-    public Unit Unit { get; private set; }
-    public bool IsAvailableForTransfer { get; private set; }
-
-    public event Action OnDragging;
-
-    private void Start()
+    [RequireComponent(typeof(Collider), typeof(Animator), typeof(Collider))]
+    public class UnitDrag : MonoBehaviour
     {
-        _collider = GetComponent<Collider>();
-        Unit = GetComponent<Unit>();
-        _animator = GetComponent<Animator>();
-    }
+        private const string Fly = "Fly";
+        private const string Idle = "Idle";
 
-    private void OnMouseDown()
-    {
-        _defaultScale = transform.localScale;
-        transform.localScale = _dragScale;
-        _savePosition = transform.localPosition;
-        Dragging = true;
-        OnDragging?.Invoke();
-        _collider.isTrigger = false;
-        _animator.Play(Fly);
-    }
+        [SerializeField] private LayerMask _draggingLayer;
 
-    private void OnMouseUp()
-    {
-        Dragging = false;
-        OnDragging?.Invoke();
-        _collider.isTrigger = true;
-        _animator.Play(Idle);
+        private Vector3 _savePosition;
+        private Collider _collider;
+        private Vector3 _defaultScale;
+        private Vector3 _dragScale = new Vector3(0.5f, 0.5f, 0.5f);
+        private bool _combining;
 
-        if (IsAvailableForTransfer)
+        private Cell _savePoint;
+        private Animator _animator;
+
+        public event Action OnDragging;
+
+        public bool Dragging { get; private set; }
+
+        public Unit Unit { get; private set; }
+
+        public bool IsAvailableForTransfer { get; private set; }
+
+        private void Start()
         {
-            if (_savePoint != null)
-            {
-                Transfer(_savePoint);
-                _savePoint = null;
-            }
+            _collider = GetComponent<Collider>();
+            Unit = GetComponent<Unit>();
+            _animator = GetComponent<Animator>();
         }
 
-        if (!_combining)
+        private void OnMouseDown()
         {
-            transform.localPosition = _savePosition;
-            transform.localScale = _defaultScale;
+            _defaultScale = transform.localScale;
+            transform.localScale = _dragScale;
+            _savePosition = transform.localPosition;
+            Dragging = true;
+            OnDragging?.Invoke();
+            _collider.isTrigger = false;
+            _animator.Play(Fly);
         }
-    }
 
-    private void Transfer(Cell cell)
-    {
-        Unit.Point.ChangeValue();
-        transform.parent = cell.transform;
-        transform.position = cell.transform.position;
-        transform.localScale = _defaultScale;
-        Unit.Point = cell;
-        Unit.Point.ChangeValue();
-    }
-
-    private void OnMouseDrag()
-    {
-        if (Dragging)
+        private void OnMouseUp()
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, float.MaxValue,
-                _draggingLayer))
-            {
-                transform.position = hit.point;
+            Dragging = false;
+            OnDragging?.Invoke();
+            _collider.isTrigger = true;
+            _animator.Play(Idle);
 
-                if (hit.collider.GameObject().TryGetComponent(out Cell point))
+            if (IsAvailableForTransfer)
+            {
+                if (_savePoint != null)
                 {
-                    if (point.IsEmployed == false)
-                    {
-                        IsAvailableForTransfer = true;
-                        _savePoint = point;
-
-                    }
-                    else
-                    {
-                        IsAvailableForTransfer = false;
-                    }
+                    Transfer(_savePoint);
+                    _savePoint = null;
                 }
             }
-            else
+
+            if (!_combining)
             {
                 transform.localPosition = _savePosition;
+                transform.localScale = _defaultScale;
             }
         }
-    } 
 
-    public void ChangeCombineValue()
-    {
-        _combining = true;
+        private void OnMouseDrag()
+        {
+            if (Dragging)
+            {
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, float.MaxValue, _draggingLayer))
+                {
+                    transform.position = hit.point;
+
+                    if (hit.collider.GameObject().TryGetComponent(out Cell point))
+                    {
+                        if (point.IsEmployed == false)
+                        {
+                            IsAvailableForTransfer = true;
+                            _savePoint = point;
+                        }
+                        else
+                        {
+                            IsAvailableForTransfer = false;
+                        }
+                    }
+                }
+                else
+                {
+                    transform.localPosition = _savePosition;
+                }
+            }
+        }
+
+        private void Transfer(Cell cell)
+        {
+            Unit.Point.ChangeValue();
+            transform.parent = cell.transform;
+            transform.position = cell.transform.position;
+            transform.localScale = _defaultScale;
+            Unit.InitPoint(cell);
+            Unit.Point.ChangeValue();
+        }
+
+        public void ChangeCombineValue()
+        {
+            _combining = true;
+        }
     }
 }

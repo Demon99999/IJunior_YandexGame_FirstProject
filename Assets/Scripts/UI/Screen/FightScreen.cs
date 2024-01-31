@@ -1,41 +1,62 @@
+using EnemyLogic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FightScreen : Screen
+namespace UI
 {
-    [SerializeField] private HealthContainer _healthContainer;
-    [SerializeField] private Slider _slider;
-    [SerializeField] private EnemyHandler _enemyHandler;
-
-    private void OnEnable()
+    public class FightScreen : Screen
     {
-        _enemyHandler.AllEnemiesKilled += CloseScreen;
+        [SerializeField] private HealthContainer _healthContainer;
+        [SerializeField] private Slider _slider;
+        [SerializeField] private EnemyHandler _enemyHandler;
+        [SerializeField] private GameHandler _gameHandler;
 
-        _healthContainer.MaxHealthChanged += OnMaxHealthChanged;
-        _healthContainer.HealthChanged += OnChangeHealth;
-    }
+        private void OnEnable()
+        {
+            _enemyHandler.AllEnemiesKilled += CloseScreen;
 
-    private void OnDisable()
-    {
-        _enemyHandler.AllEnemiesKilled -= CloseScreen;
+            _healthContainer.MaxHealthChanged += OnMaxHealthChanged;
+            _healthContainer.HealthChanged += OnChangeHealth;
 
-        _healthContainer.HealthChanged -= OnChangeHealth;
-        _healthContainer.MaxHealthChanged -= OnMaxHealthChanged;
-    }
+            _gameHandler.StartGameClick += OnOpen;
+            _gameHandler.OpenAfterFightDefeatClick += OnClose;
+        }
 
-    private void Start()
-    {
-        _slider.maxValue = _healthContainer.MaxHealth;
-        _slider.value = _slider.maxValue;
-    }
+        private void OnDisable()
+        {
+            _enemyHandler.AllEnemiesKilled -= CloseScreen;
 
-    public void OnMaxHealthChanged()
-    {
-        _slider.value = _slider.maxValue;
-    }
+            _healthContainer.HealthChanged -= OnChangeHealth;
+            _healthContainer.MaxHealthChanged -= OnMaxHealthChanged;
 
-    private void OnChangeHealth(int health)
-    {
-        _slider.value = health;
+            _gameHandler.StartGameClick -= OnOpen;
+            _gameHandler.OpenAfterFightDefeatClick -= OnClose;
+        }
+
+        private void Start()
+        {
+            _slider.maxValue = _healthContainer.MaxHealth;
+            _slider.value = _slider.maxValue;
+        }
+
+        public void OnMaxHealthChanged()
+        {
+            _slider.value = _slider.maxValue;
+        }
+
+        private void OnChangeHealth(int health)
+        {
+            _slider.value = health;
+        }
+
+        private void OnOpen()
+        {
+            OpenScreen();
+        }
+
+        private void OnClose()
+        {
+            CloseScreen();
+        }
     }
 }

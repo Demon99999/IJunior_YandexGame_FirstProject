@@ -1,40 +1,48 @@
+using EnemyLogic;
+using UI;
 using UnityEngine;
 
-public class GroundAudio : MonoBehaviour
+namespace Audio
 {
-    [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private AudioClip _calmClip;
-    [SerializeField] private AudioClip _fightClip;
-
-    [SerializeField] private EnemyHandler _enemyHandler;
-    [SerializeField] private HealthContainer _healthContainer;
-
-    private void Start()
+    public class GroundAudio : MonoBehaviour
     {
-        OnÑalmClip();
-    }
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _calmClip;
+        [SerializeField] private AudioClip _fightClip;
 
-    private void OnEnable()
-    {
-        _enemyHandler.AllEnemiesKilled += OnÑalmClip;
-        _healthContainer.Died += OnÑalmClip;
-    }
+        [SerializeField] private EnemyHandler _enemyHandler;
+        [SerializeField] private HealthContainer _healthContainer;
+        [SerializeField] private BattleScreen _battleScreen;
 
-    private void OnDisable()
-    {
-        _enemyHandler.AllEnemiesKilled -= OnÑalmClip;
-        _healthContainer.Died -= OnÑalmClip;
-    }
+        private void Start()
+        {
+            OnÑalmClip();
+        }
 
-    public void OnÑalmClip()
-    {
-        _audioSource.clip = _calmClip;
-        _audioSource.Play();
-    }
+        private void OnEnable()
+        {
+            _enemyHandler.AllEnemiesKilled += OnÑalmClip;
+            _healthContainer.Died += OnÑalmClip;
+            _battleScreen.PlayButtonClick += OnFightClip;
+        }
 
-    public void OnFightClip()
-    {
-        _audioSource.clip = _fightClip;
-        _audioSource.Play();
+        private void OnDisable()
+        {
+            _enemyHandler.AllEnemiesKilled -= OnÑalmClip;
+            _healthContainer.Died -= OnÑalmClip;
+            _battleScreen.PlayButtonClick -= OnFightClip;
+        }
+
+        private void OnÑalmClip()
+        {
+            _audioSource.clip = _calmClip;
+            _audioSource.Play();
+        }
+
+        private void OnFightClip()
+        {
+            _audioSource.clip = _fightClip;
+            _audioSource.Play();
+        }
     }
 }

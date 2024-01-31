@@ -1,68 +1,70 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class UnitStateMashine : MonoBehaviour
+namespace UnitLogic
 {
-    [SerializeField] private UnitState _firstState;
-    
-    private UnitState _currentState;
-
-    private Animator _animator;
-    private Vector3 _target;
-
-    private void Awake()
+    [RequireComponent(typeof(Animator))]
+    public class UnitStateMashine : MonoBehaviour
     {
-        _animator = GetComponent<Animator>();
-    }
+        [SerializeField] private UnitState _firstState;
 
-    private void Start()
-    {
-        _currentState = _firstState;
-        _currentState.Enter(_animator,_target);
-    }
+        private UnitState _currentState;
+        private Animator _animator;
+        private Vector3 _target;
 
-    private void Update()
-    {
-        _target = GetComponent<Unit>().Target;
-
-        if (_currentState == null)
+        private void Awake()
         {
-            return;
+            _animator = GetComponent<Animator>();
         }
 
-        UnitState nextState = _currentState.GetNext();
-
-        if (nextState != null)
+        private void Start()
         {
-            Transit(nextState);
+            _currentState = _firstState;
+            _currentState.Enter(_animator, _target);
         }
-    }
 
-    public void Reset()
-    {
-        _currentState.Exit();
-        _currentState = _firstState;
-        _currentState.Enter(_animator, _target);
-        Transit(_firstState);
-    }
+        private void Update()
+        {
+            _target = GetComponent<Unit>().Target;
 
-    public void Init(Vector3 target)
-    {
-        _target = target;
-    }
+            if (_currentState == null)
+            {
+                return;
+            }
 
-    private void Transit(UnitState nextState)
-    {
-        if (_currentState != null)
+            UnitState nextState = _currentState.GetNext();
+
+            if (nextState != null)
+            {
+                Transit(nextState);
+            }
+        }
+
+        public void Reset()
         {
             _currentState.Exit();
+            _currentState = _firstState;
+            _currentState.Enter(_animator, _target);
+            Transit(_firstState);
         }
 
-        _currentState = nextState;
-
-        if (_currentState != null)
+        public void Init(Vector3 target)
         {
-            _currentState.Enter(_animator,_target);
+            _target = target;
+        }
+
+        private void Transit(UnitState nextState)
+        {
+            if (_currentState != null)
+            {
+                _currentState.Exit();
+            }
+
+            _currentState = nextState;
+
+            if (_currentState != null)
+            {
+                _currentState.Enter(_animator, _target);
+            }
         }
     }
 }

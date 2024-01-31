@@ -1,47 +1,55 @@
 using System.Collections;
 using UnityEngine;
 
-public class AttackState : EnemyState
+namespace EnemyLogic
 {
-    private const string Attack = "Attack";
-
-    [SerializeField] private float _attackForce;
-    [SerializeField] private float _attackDelay;
-
-    private Coroutine _attackCoroutine;
-
-    private void OnEnable()
+    public class AttackState : EnemyState
     {
-        if (enabled)
-            StartAttack();
-    }
+        private const string Attack = "Attack";
 
-    private void OnDisable()
-    {
-        if (_attackCoroutine != null)
+        [SerializeField] private float _attackForce;
+        [SerializeField] private float _attackDelay;
+
+        private Coroutine _attackCoroutine;
+        private WaitForSeconds _waitForSecounds;
+
+        private void OnEnable()
         {
-            StopCoroutine(_attackCoroutine);
-        }
-    }
-
-    private void StartAttack()
-    {
-        if (_attackCoroutine != null)
-        {
-            StopCoroutine(_attackCoroutine);
+            if (enabled)
+                StartAttack();
         }
 
-        _attackCoroutine = StartCoroutine(AttackCoroutine());
-    }
+        private void OnDisable()
+        {
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
+            }
+        }
 
-    private IEnumerator AttackCoroutine()
-    {
-        Animator.SetTrigger(Attack);
-        var waitForSecounds = new WaitForSeconds(_attackDelay);
-        StrongPoint.ApplyDamage(_attackForce);
-        yield return waitForSecounds;
+        private void Start()
+        {
+            _waitForSecounds = new WaitForSeconds(_attackDelay);
+        }
 
-        if (StrongPoint.IsAlive())
-            StartAttack();
+        private void StartAttack()
+        {
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
+            }
+
+            _attackCoroutine = StartCoroutine(AttackCoroutine());
+        }
+
+        private IEnumerator AttackCoroutine()
+        {
+            Animator.SetTrigger(Attack);
+            EnemyTarget.ApplyDamage(_attackForce);
+            yield return _waitForSecounds;
+
+            if (EnemyTarget.IsAlive())
+                StartAttack();
+        }
     }
 }

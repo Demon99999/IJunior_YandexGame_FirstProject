@@ -2,54 +2,57 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
-[RequireComponent(typeof(AudioSource))]
-public class EnemyAudio : MonoBehaviour
+namespace Audio
 {
-    [SerializeField] private AudioClip[] _audioClips;
-    [SerializeField] private AudioMixerGroup _audioMixerGroup;
-
-    private AudioSource _audioSource;
-    private int _lastClipIndex = -1;
-    private float _delayMax = 15f;
-
-    private void Start()
+    [RequireComponent(typeof(AudioSource))]
+    public class EnemyAudio : MonoBehaviour
     {
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.outputAudioMixerGroup = _audioMixerGroup;
-        StartCoroutine(PlayRandomClipWithDelay());
-    }
+        [SerializeField] private AudioClip[] _audioClips;
+        [SerializeField] private AudioMixerGroup _audioMixerGroup;
 
-    private IEnumerator PlayRandomClipWithDelay()
-    {
-        float delay = Random.Range(0, _delayMax);
-        yield return new WaitForSeconds(delay);
-        PlayRandomClip();
+        private AudioSource _audioSource;
+        private int _lastClipIndex = -1;
+        private float _delayMax = 15f;
 
-        while (_audioSource.isPlaying)
+        private void Start()
         {
-            yield return null;
+            _audioSource = GetComponent<AudioSource>();
+            _audioSource.outputAudioMixerGroup = _audioMixerGroup;
+            StartCoroutine(PlayRandomClipWithDelay());
         }
 
-        StartCoroutine(PlayRandomClipWithDelay());
-    }
-
-    private void PlayRandomClip()
-    {
-        int randomIndex = GetRandomClipIndex();
-
-        if (randomIndex == _lastClipIndex)
+        private IEnumerator PlayRandomClipWithDelay()
         {
-            randomIndex = GetRandomClipIndex();
+            float delay = Random.Range(0, _delayMax);
+            yield return new WaitForSeconds(delay);
+            PlayRandomClip();
+
+            while (_audioSource.isPlaying)
+            {
+                yield return null;
+            }
+
+            StartCoroutine(PlayRandomClipWithDelay());
         }
 
-        AudioClip randomClip = _audioClips[randomIndex];
-        _audioSource.clip = randomClip;
-        _audioSource.Play();
-        _lastClipIndex = randomIndex;
-    }
+        private void PlayRandomClip()
+        {
+            int randomIndex = GetRandomClipIndex();
 
-    private int GetRandomClipIndex()
-    {
-        return Random.Range(0, _audioClips.Length);
+            if (randomIndex == _lastClipIndex)
+            {
+                randomIndex = GetRandomClipIndex();
+            }
+
+            AudioClip randomClip = _audioClips[randomIndex];
+            _audioSource.clip = randomClip;
+            _audioSource.Play();
+            _lastClipIndex = randomIndex;
+        }
+
+        private int GetRandomClipIndex()
+        {
+            return Random.Range(0, _audioClips.Length);
+        }
     }
 }

@@ -1,47 +1,50 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TutorialPannel : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private Button _resumeButton;
-    [SerializeField] private Button _completeButton;
-    [SerializeField] private GameObject _firstSlide;
-    [SerializeField] private GameObject _secondSlide;
-
-    private const string Level = "Level";
-
-    private void OnEnable()
+    public class TutorialPannel : MonoBehaviour
     {
-        _resumeButton.onClick.AddListener(OnNextSlide);
-        _completeButton.onClick.AddListener(OnTutorialFinish);
-    }
+        private const string Level = "Level";
 
-    private void OnDisable()
-    {
-        _resumeButton.onClick.RemoveListener(OnNextSlide);
-        _completeButton.onClick.RemoveListener(OnTutorialFinish);
-    }
+        [SerializeField] private Button _resumeButton;
+        [SerializeField] private Button _completeButton;
+        [SerializeField] private GameObject _firstSlide;
+        [SerializeField] private GameObject _secondSlide;
 
-    private void Start()
-    {
-        int level = PlayerPrefs.GetInt(Level);
-
-        if (level == 1)
+        private void OnEnable()
         {
-            Time.timeScale = 0;
-            _firstSlide.SetActive(true);
+            _resumeButton.onClick.AddListener(OnNextSlide);
+            _completeButton.onClick.AddListener(OnTutorialFinish);
         }
-    }
 
-    private void OnNextSlide()
-    {
-        _firstSlide.SetActive(false);
-        _secondSlide.SetActive(true);
-    }
+        private void OnDisable()
+        {
+            _resumeButton.onClick.RemoveListener(OnNextSlide);
+            _completeButton.onClick.RemoveListener(OnTutorialFinish);
+        }
 
-    private void OnTutorialFinish()
-    {
-        Time.timeScale = 1;
-        _secondSlide.SetActive(false);
+        private void Start()
+        {
+            int level = PlayerPrefs.GetInt(Level);
+
+            if (level == 1)
+            {
+                Time.timeScale = 0;
+                _firstSlide.SetActive(true);
+            }
+        }
+
+        private void OnNextSlide()
+        {
+            _firstSlide.SetActive(false);
+            _secondSlide.SetActive(true);
+        }
+
+        private void OnTutorialFinish()
+        {
+            Time.timeScale = 1;
+            _secondSlide.SetActive(false);
+        }
     }
 }

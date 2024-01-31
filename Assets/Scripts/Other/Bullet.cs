@@ -1,118 +1,100 @@
+using EnemyLogic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class Bullet : MonoBehaviour
+namespace GameLogic
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private int _force;
-    [SerializeField] private float _radius;
-    [SerializeField] private ParticleSystem _particle;
-    [SerializeField] private ParticleSystem _particleHit;
-
-    private ParticleSystem _particleSystem;
-    private int _damage;
-    private Rigidbody _rigidbody;
-    private float _delayDestroy = 7;
-
-    private void Awake()
+    [RequireComponent(typeof(Rigidbody))]
+    public class Bullet : MonoBehaviour
     {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
+        [SerializeField] private float _speed;
+        [SerializeField] private int _force;
+        [SerializeField] private float _radius;
+        [SerializeField] private ParticleSystem _particlesBlood;
+        [SerializeField] private ParticleSystem _particlesHits;
 
-    private void FixedUpdate()
-    {
-        Vector3 direction = transform.forward;
-        _rigidbody.velocity = direction.normalized * _speed;
-        Destroy(gameObject, _delayDestroy);
-    }
+        private ParticleSystem _particlesSparks;
+        private int _damage;
+        private Rigidbody _rigidbody;
+        private float _delayDestroy = 7f;
+        private float _delayDestroyParticle = 1f;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out EnemyCollision enemy))
+        private void Awake()
         {
-            ApplyDamageToEnemy(enemy);
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
-        if (other.TryGetComponent(out ExplosionBarrel barrel))
+        private void FixedUpdate()
         {
-            barrel.Explode();
+            Vector3 direction = transform.forward;
+            _rigidbody.velocity = direction.normalized * _speed;
+            Destroy(gameObject, _delayDestroy);
         }
 
-        Destroy(gameObject);
-    }
-
-    public void Initialize(int damage, ParticleSystem system)
-    {
-        _damage = damage;
-        _particleSystem = system;
-        Instantiate(_particleSystem, transform);
-        _particleSystem.Play();
-    }
-
-    private void ApplyDamageToEnemy(EnemyCollision enemy)
-    {
-        if (enemy.ApplayDamage(_rigidbody, _damage, _force))
+        private void OnTriggerEnter(Collider other)
         {
-            if (_particle != null)
+            if (other.TryGetComponent(out EnemyCollision enemy))
             {
-                _particle.transform.position = transform.position;
-                _particle.Play();
+                ApplyDamageToEnemy(enemy);
             }
 
-            var particle = Instantiate(_particle);
+            if (other.TryGetComponent(out ExplosionBarrel barrel))
+            {
+                barrel.Explode();
+            }
+
             Destroy(gameObject);
-            Destroy(particle.gameObject,1f);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        //
-        if (_particleHit != null)
-        {
-            _particleHit.transform.position = transform.position;
-            _particleHit.Play();
         }
 
-        var particle = Instantiate(_particleHit);
-        Destroy(gameObject);
-        Destroy(particle.gameObject, 1f);
-
-        Collider[] colliders2 = Physics.OverlapSphere(transform.position, _radius);
-
-        foreach (Collider collider in colliders2)
+        private void OnTriggerStay(Collider other)
         {
-            if (collider.TryGetComponent(out EnemyCollision enemyCollision))
+            if (_particlesHits != null)
             {
-                ApplyDamageToEnemy(enemyCollision);
+                _particlesHits.transform.position = transform.position;
+                _particlesHits.Play();
             }
 
-            if (collider.TryGetComponent(out ExplosionBarrel explosionBarrel))
+            var particle = Instantiate(_particlesHits);
+            Destroy(gameObject);
+            Destroy(particle.gameObject, _delayDestroyParticle);
+
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
+
+            foreach (Collider collider in colliders)
             {
-                explosionBarrel.Explode();
+                if (collider.TryGetComponent(out EnemyCollision enemyCollision))
+                {
+                    ApplyDamageToEnemy(enemyCollision);
+                }
+
+                if (collider.TryGetComponent(out ExplosionBarrel explosionBarrel))
+                {
+                    explosionBarrel.Explode();
+                }
             }
         }
-        //
 
-        //if (other.TryGetComponent(out EnemyCollision enemy))
-        //{
-        //    if (enemy != null)
-        //    {
-        //        Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
+        public void Initialize(int damage, ParticleSystem particleSystem)
+        {
+            _damage = damage;
+            _particlesSparks = particleSystem;
+            Instantiate(_particlesSparks, transform);
+            _particlesSparks.Play();
+        }
 
-        //        foreach (Collider collider in colliders)
-        //        {
-        //            if (collider.TryGetComponent(out EnemyCollision enemyCollision))
-        //            {
-        //                ApplyDamageToEnemy(enemyCollision);
-        //            }
+        private void ApplyDamageToEnemy(EnemyCollision enemy)
+        {
+            if (enemy.IsAlive(_rigidbody, _damage, _force))
+            {
+                if (_particlesBlood != null)
+                {
+                    _particlesBlood.transform.position = transform.position;
+                    _particlesBlood.Play();
+                }
 
-        //            if (collider.TryGetComponent(out ExplosionBarrel explosionBarrel))
-        //            {
-        //                explosionBarrel.Explode();
-        //            }
-        //        }
-        //    }
-        //}
+                var particle = Instantiate(_particlesBlood);
+                Destroy(gameObject);
+                Destroy(particle.gameObject, _delayDestroyParticle);
+            }
+        }
     }
 }

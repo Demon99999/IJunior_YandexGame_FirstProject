@@ -1,69 +1,72 @@
 using System;
 using Agava.YandexGames;
+using GameLogic;
 using UnityEngine;
 using UnityEngine.UI;
-using PlayerPrefs = UnityEngine.PlayerPrefs;
 
-public class LeaderboardPanel : Screen
+namespace UI
 {
-    private const int MinPlayerCount = 1;
-    private const int MaxPlayerCount = 5;
-    private const string LeaderboardName = "Demon9000";
-
-    [SerializeField] private Button _closeButton;
-    [SerializeField] private LeaderboardView _leaderboardView;
-    [SerializeField] private SaveSystem _saveSystem;
-
-    public Action Closed;
-
-    private void OnEnable()
+    public class LeaderboardPanel : Screen
     {
-        _closeButton.onClick.AddListener(OnClose);
-    }
+        private const int MinPlayerCount = 1;
+        private const int MaxPlayerCount = 5;
+        private const string LeaderboardName = "Demon9000";
 
-    private void OnDisable()
-    {
-        _closeButton.onClick.RemoveListener(OnClose);
-    }
+        [SerializeField] private Button _closeButton;
+        [SerializeField] private LeaderboardView _leaderboardView;
+        [SerializeField] private SaveSystem _saveSystem;
 
-    private void Start()
-    {
+        public event Action Closed;
+
+        private void OnEnable()
+        {
+            _closeButton.onClick.AddListener(OnClose);
+        }
+
+        private void OnDisable()
+        {
+            _closeButton.onClick.RemoveListener(OnClose);
+        }
+
+        private void Start()
+        {
 #if UNITY_WEBGL && !UNITY_EDITOR
         PlayerAccount.RequestPersonalProfileDataPermission();
         LoadEntries();
 #endif
-    }
+        }
 
-    public void Init()
-    {
-        OpenScreen();
-        _saveSystem.SetScore();
-        ClearViews();
-        LoadEntries();
-    }
-
-    private void LoadEntries()
-    {
-        Leaderboard.GetEntries(LeaderboardName, (result) =>
+        public void Init()
         {
-            var results = result.entries.Length;
-            results = Mathf.Clamp(results, MinPlayerCount, MaxPlayerCount);
+            OpenScreen();
+            _saveSystem.SetScore();
+            ClearViews();
+            LoadEntries();
+        }
 
-            for (int i = 0; i < results; i++)
+        private void LoadEntries()
+        {
+            Leaderboard.GetEntries(LeaderboardName, (result) =>
             {
-                _leaderboardView.Create(result.entries[i]);
-            }
-        });
-    }
+                var results = result.entries.Length;
+                results = Mathf.Clamp(results, MinPlayerCount, MaxPlayerCount);
 
-    private void ClearViews()
-    {
-        _leaderboardView.Clear();
-    }
+                for (int i = 0; i < results; i++)
+                {
+                    _leaderboardView.Create(result.entries[i]);
+                }
+            });
+        }
 
-    private void OnClose()
-    {
-        CloseScreen();
-        Closed?.Invoke();
+        private void ClearViews()
+        {
+            _leaderboardView.Clear();
+        }
+
+        private void OnClose()
+        {
+            CloseScreen();
+            Closed?.Invoke();
+        }
     }
 }

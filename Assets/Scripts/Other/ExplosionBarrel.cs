@@ -1,42 +1,48 @@
+using EnemyLogic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class ExplosionBarrel : MonoBehaviour
+namespace GameLogic
 {
-    [SerializeField] private int _damage;
-    [SerializeField] private float _radius;
-    [SerializeField] private int _forse;
-    [SerializeField] private ParticleSystem _particle;
-
-    private Rigidbody _rigidbody;
-
-    private void Awake()
+    [RequireComponent(typeof(Rigidbody))]
+    public class ExplosionBarrel : MonoBehaviour
     {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
+        [SerializeField] private int _damage;
+        [SerializeField] private float _radius;
+        [SerializeField] private int _forse;
+        [SerializeField] private ParticleSystem _particle;
 
-    public void Explode()
-    {
-        var particle = Instantiate(_particle,transform.position,Quaternion.identity);
+        private float _delayDestroy = 1f;
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
+        private Rigidbody _rigidbody;
 
-        foreach (var collider in colliders)
+        private void Awake()
         {
-            if (collider.TryGetComponent(out EnemyCollision enemy))
-            {
-                Rigidbody rb = enemy.GetComponent<Rigidbody>();
-
-                if (rb !=null)
-                {
-                    rb.AddExplosionForce(_forse,transform.position,_radius);
-                }
-
-                enemy.ApplayDamage(_rigidbody, _damage, _forse);
-            }
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
-        gameObject.SetActive(false);
-        Destroy(particle.gameObject,1f);
+        public void Explode()
+        {
+            var particle = Instantiate(_particle, transform.position, Quaternion.identity);
+
+            Collider[] colliders = Physics.OverlapSphere(transform.position, _radius);
+
+            foreach (var collider in colliders)
+            {
+                if (collider.TryGetComponent(out EnemyCollision enemy))
+                {
+                    Rigidbody rb = enemy.GetComponent<Rigidbody>();
+
+                    if (rb != null)
+                    {
+                        rb.AddExplosionForce(_forse, transform.position, _radius);
+                    }
+
+                    enemy.IsAlive(_rigidbody, _damage, _forse);
+                }
+            }
+
+            gameObject.SetActive(false);
+            Destroy(particle.gameObject, _delayDestroy);
+        }
     }
 }

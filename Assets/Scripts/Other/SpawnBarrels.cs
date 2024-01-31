@@ -1,31 +1,51 @@
-using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
-public class SpawnBarrels : MonoBehaviour
+namespace GameLogic
 {
-    [SerializeField] private Transform[] _spawnPoints;
-    [SerializeField] private ExplosionBarrel _template;
-    [SerializeField] private Transform _container;
-
-    private readonly List<ExplosionBarrel> _explosionBarrels = new List<ExplosionBarrel>();
-
-    public void Create()
+    public class SpawnBarrels : MonoBehaviour
     {
-        for (int i = 0; i < _spawnPoints.Length; i++)
-        {
-            ExplosionBarrel barrel = Instantiate(_template, _spawnPoints[i]);
-            _explosionBarrels.Add(barrel);
-        }
-    }
+        private readonly List<ExplosionBarrel> _explosionBarrels = new List<ExplosionBarrel>();
 
-    public void Clear()
-    {
-        foreach (var barrel in _explosionBarrels)
+        [SerializeField] private Transform[] _spawnPoints;
+        [SerializeField] private ExplosionBarrel _template;
+        [SerializeField] private VictoryScreen _victoryScreen;
+        [SerializeField] private DefeatScreen _defeatScreen;
+
+        private void OnEnable()
         {
-            Destroy(barrel.gameObject);
+            _victoryScreen.ResumeButtonClick += OnClear;
+            _victoryScreen.BonusButtonClick += OnClear;
+            _defeatScreen.BonusButtonClick += OnClear;
+            _defeatScreen.RestartButtonClick += OnClear;
         }
 
-        _explosionBarrels.Clear();
+        private void OnDisable()
+        {
+            _victoryScreen.ResumeButtonClick -= OnClear;
+            _victoryScreen.BonusButtonClick -= OnClear;
+            _defeatScreen.BonusButtonClick -= OnClear;
+            _defeatScreen.RestartButtonClick -= OnClear;
+        }
+
+        public void Create()
+        {
+            for (int i = 0; i < _spawnPoints.Length; i++)
+            {
+                ExplosionBarrel barrel = Instantiate(_template, _spawnPoints[i]);
+                _explosionBarrels.Add(barrel);
+            }
+        }
+
+        public void OnClear()
+        {
+            foreach (var barrel in _explosionBarrels)
+            {
+                Destroy(barrel.gameObject);
+            }
+
+            _explosionBarrels.Clear();
+        }
     }
 }

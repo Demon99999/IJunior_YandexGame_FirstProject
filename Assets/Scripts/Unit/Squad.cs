@@ -1,125 +1,146 @@
 using System.Collections.Generic;
+using GameLogic;
+using UI;
 using UnityEngine;
 
-public class Squad : MonoBehaviour
+namespace UnitLogic
 {
-    [SerializeField] private GridGenerator _gridGenerator;
-    [SerializeField] private UnitSpawner _unitSpawner;
-    [SerializeField] private AimCursor _aimCursor;
-    
-    private List<Cell> _cells;
-    private int _maxUnit = 5;
-    private List<Unit> _units;
-    private List<Unit> _unitsSquad;
-
-    public List<Unit> Units => _units;
-
-    private void Start()
+    public class Squad : MonoBehaviour
     {
-        _cells =new List<Cell>();
-        _units=new List<Unit>();
-        _unitsSquad=new List<Unit>();
-    }
+        [SerializeField] private GridGenerator _gridGenerator;
+        [SerializeField] private UnitSpawner _unitSpawner;
+        [SerializeField] private AimCursor _aimCursor;
+        [SerializeField] private VictoryScreen _victoryScreen;
+        [SerializeField] private DefeatScreen _defeatScreen;
+        [SerializeField] private BattleScreen _battleScreen;
 
-    public void ReturnUnits()
-    {
-       DeleteUnits();
-    }
+        private List<Cell> _cells;
+        private int _maxUnit = 5;
+        private List<Unit> _units;
+        private float _positionX = 1.5f;
+        private float _positionY = 0f;
+        private float _positionZ = 4f;
+        private int _multiplierDistance = 2;
 
-    public bool CheckNumberUnits()
-    {
-        _cells = _gridGenerator.Cells;
-        _units = TryGetUnits(_cells);
+        public List<Unit> Units => _units;
 
-        if (_units.Count > 0)
+        private void OnEnable()
         {
-            return true;
+            _victoryScreen.ResumeButtonClick += OnReturnUnits;
+            _victoryScreen.BonusButtonClick += OnReturnUnits;
+            _defeatScreen.RestartButtonClick += OnReturnUnits;
+            _defeatScreen.BonusButtonClick += OnReturnUnits;
+            _battleScreen.PlayButtonClick += OnUnitsMove;
         }
-        else
-        {
-            return false;
-        }
-    }
 
-    public void HideUnitsLevel()
-    {
-        foreach (var unit in _units)
+        private void OnDisable()
         {
-            if (unit.TryGetComponent(out UnitLevel unitLevel))
+            _victoryScreen.ResumeButtonClick -= OnReturnUnits;
+            _victoryScreen.BonusButtonClick -= OnReturnUnits;
+            _defeatScreen.RestartButtonClick -= OnReturnUnits;
+            _defeatScreen.BonusButtonClick -= OnReturnUnits;
+            _battleScreen.PlayButtonClick -= OnUnitsMove;
+        }
+
+        private void Start()
+        {
+            _cells = new List<Cell>();
+            _units = new List<Unit>();
+        }
+
+        public bool IsPositive()
+        {
+            _cells = _gridGenerator.Cells;
+            _units = GetUnits(_cells);
+
+            return _units.Count > 0;
+        }
+
+        private void OnReturnUnits()
+        {
+            DeleteUnits();
+        }
+
+        private void OnUnitsMove()
+        {
+            _cells = _gridGenerator.Cells;
+            _units = GetUnits(_cells);
+            DistributionMove(_maxUnit, _units);
+            HideUnitsLevel();
+        }
+
+        private void HideUnitsLevel()
+        {
+            foreach (var unit in _units)
             {
-                unitLevel.HideLevel();
-            }
-        }
-    }
-
-    public void UnitsMove()
-    {
-        _cells = _gridGenerator.Cells;
-        _units = TryGetUnits(_cells);
-        DistributionMove(_maxUnit, _units);
-    }
-
-    private void DeleteUnits()
-    {
-        foreach (var unit in _units)
-        {
-            Destroy(unit.gameObject);
-        }
-
-        _units.Clear();
-    }
-
-    private List<Unit> TryGetUnits(List<Cell> cells)
-    {
-        List<Unit> units = new List<Unit>();
-
-        foreach (var point in cells)
-        {
-            if (point.gameObject.GetComponentInChildren<Unit>())
-            {
-                Unit unit = point.gameObject.GetComponentInChildren<Unit>();
-                unit.GetComponent<ShootState>().Init(_aimCursor);
-                units.Add(unit);
+                if (unit.TryGetComponent(out UnitLevel unitLevel))
+                {
+                    unitLevel.HideLevel();
+                }
             }
         }
 
-        return units;
-    }
-
-    private void DistributionMove(int count,List<Unit> units)
-    {
-        if (units.Count >= count)
+        private void DeleteUnits()
         {
-            AddUnits(count,units);
-        }
-        else
-        {
-            AddUnits(units.Count,units);
-        }
-    }
+            foreach (var unit in _units)
+            {
+                Destroy(unit.gameObject);
+            }
 
-    private void AddUnits(int count, List<Unit> units)
-    {
-        List<Vector3> firingLine = GetPointPosition(count);
-
-        for (int i = 0; i < count; i++)
-        {
-            _unitsSquad.Add(units[i]);
-            units[i].Init(firingLine[i]);
-            units[i].Move();
-            units[i].GetComponent<Collider>().enabled = false;
-        }
-    }
-
-    private List<Vector3> GetPointPosition(int count)
-    {
-        List<Vector3> points = new List<Vector3>();
-
-        for (float i = 1; i < count * 2; i = i + 1.5f)
-        {
-            points.Add(new Vector3(i, 0, 4f));
+            _units.Clear();
         }
 
-        return points;
+        private List<Unit> GetUnits(List<Cell> cells)
+        {
+            List<Unit> units = new List<Unit>();
+
+            foreach (var point in cells)
+            {
+                if (point.gameObject.GetComponentInChildren<Unit>())
+                {
+                    Unit unit = point.gameObject.GetComponentInChildren<Unit>();
+                    unit.GetComponent<ShootState>().Init(_aimCursor);
+                    units.Add(unit);
+                }
+            }
+
+            return units;
+        }
+
+        private void DistributionMove(int count, List<Unit> units)
+        {
+            if (units.Count >= count)
+            {
+                AddUnits(count, units);
+            }
+            else
+            {
+                AddUnits(units.Count, units);
+            }
+        }
+
+        private void AddUnits(int count, List<Unit> units)
+        {
+            List<Vector3> firingLine = GetPointPosition(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                units[i].Init(firingLine[i]);
+                units[i].Move();
+                units[i].GetComponent<Collider>().enabled = false;
+            }
+        }
+
+        private List<Vector3> GetPointPosition(int count)
+        {
+            List<Vector3> points = new List<Vector3>();
+
+            for (float i = 1; i < count * _multiplierDistance; i = i + _positionX)
+            {
+                points.Add(new Vector3(i, _positionY, _positionZ));
+            }
+
+            return points;
+        }
     }
 }

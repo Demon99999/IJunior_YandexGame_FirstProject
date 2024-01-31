@@ -1,36 +1,40 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-public class MoveState : EnemyState
+namespace EnemyLogic
 {
-    private const string Run = "Run";
-
-    private NavMeshAgent _agent;
-    private Vector3 _target;
-
-    private void Awake()
+    [RequireComponent(typeof(NavMeshAgent))]
+    public class MoveState : EnemyState
     {
-        _agent = GetComponent<NavMeshAgent>();
-    }
+        private const string Run = "Run";
+        private const float SpeedStart = 0.01f;
+        private const float SpeedEnd = 0f;
 
-    private void OnEnable()
-    {
-        Animator.SetFloat(Run, 0.01f);
-        _agent.enabled = true;
-    }
+        private NavMeshAgent _agent;
 
-    private void OnDisable()
-    {
-        Animator.SetFloat(Run, 0);
-        _agent.enabled = false;
-    }
-
-    private void Update()
-    {
-        if (StrongPoint != null)
+        private void Awake()
         {
-            _agent.SetDestination(Target.position);
+            _agent = GetComponent<NavMeshAgent>();
+        }
+
+        private void OnEnable()
+        {
+            Animator.SetFloat(Run, SpeedStart);
+            _agent.enabled = true;
+        }
+
+        private void OnDisable()
+        {
+            Animator.SetFloat(Run, SpeedEnd);
+            _agent.enabled = false;
+        }
+
+        private void Update()
+        {
+            if (EnemyTarget != null)
+            {
+                _agent.SetDestination(Target.position);
+            }
         }
     }
 }

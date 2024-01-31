@@ -1,56 +1,82 @@
+using System;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class EnemyHandler : MonoBehaviour
+namespace EnemyLogic
 {
-    private List<Enemy> _enemies;
-    
-    public event UnityAction AllEnemiesKilled;
-    public event UnityAction EnemiesIncluded;
-    public event UnityAction EnemiesRemoved;
-
-    private void Awake()
+    public class EnemyHandler : MonoBehaviour
     {
-        _enemies = new List<Enemy>();
-    }
+        [SerializeField] private VictoryScreen _victoryScreen;
+        [SerializeField] private DefeatScreen _defeatScreen;
+        [SerializeField] private BattleScreen _battleScreen;
 
-    public void AddEnemy(Enemy enemy)
-    {
-        _enemies.Add(enemy);
-        enemy.Died += OnEnemyDeath;
-        enemy.enabled = false;
-    }
+        private List<Enemy> _enemies;
 
-    public void OnEnemyDeath(Enemy enemy)
-    {
-        _enemies.Remove(enemy);
-        enemy.Died -= OnEnemyDeath;
+        public event Action AllEnemiesKilled;
 
-        if (_enemies.Count <= 0)
+        public event Action EnemiesIncluded;
+
+        public event Action EnemiesRemoved;
+
+        private void Awake()
         {
-            AllEnemiesKilled?.Invoke();
-        }
-    }
-
-    public void OnDestroyEnemies()
-    {
-        foreach (var enemy in _enemies)
-        {
-            Destroy(enemy.gameObject);
+            _enemies = new List<Enemy>();
         }
 
-        _enemies.Clear();
-        EnemiesRemoved?.Invoke();
-    }
-
-    public void OnEnemies()
-    {
-        foreach (var enemy in _enemies)
+        private void OnEnable()
         {
-            enemy.enabled = true;
+            _victoryScreen.ResumeButtonClick += OnDestroyEnemies;
+            _victoryScreen.BonusButtonClick += OnDestroyEnemies;
+            _defeatScreen.DestroyEnemies += OnDestroyEnemies;
+            _battleScreen.PlayButtonClick += OnTurnOnEnemies;
         }
 
-        EnemiesIncluded?.Invoke();
+        private void OnDisable()
+        {
+            _victoryScreen.ResumeButtonClick -= OnDestroyEnemies;
+            _victoryScreen.BonusButtonClick -= OnDestroyEnemies;
+            _defeatScreen.DestroyEnemies -= OnDestroyEnemies;
+            _battleScreen.PlayButtonClick -= OnTurnOnEnemies;
+        }
+
+        public void AddEnemy(Enemy enemy)
+        {
+            _enemies.Add(enemy);
+            enemy.Died += OnEnemyDeath;
+            enemy.enabled = false;
+        }
+
+        private void OnEnemyDeath(Enemy enemy)
+        {
+            _enemies.Remove(enemy);
+            enemy.Died -= OnEnemyDeath;
+
+            if (_enemies.Count <= 0)
+            {
+                AllEnemiesKilled?.Invoke();
+            }
+        }
+
+        private void OnDestroyEnemies()
+        {
+            foreach (var enemy in _enemies)
+            {
+                Destroy(enemy.gameObject);
+            }
+
+            _enemies.Clear();
+            EnemiesRemoved?.Invoke();
+        }
+
+        private void OnTurnOnEnemies()
+        {
+            foreach (var enemy in _enemies)
+            {
+                enemy.enabled = true;
+            }
+
+            EnemiesIncluded?.Invoke();
+        }
     }
 }

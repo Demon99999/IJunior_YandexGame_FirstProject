@@ -77,8 +77,8 @@ MonoBehaviour:
   _speed: 70
   _force: 30
   _radius: 0.1
-  _particle: {fileID: 9039742879290479385, guid: d3519f93ec1ff2049aca4967ed6832cf, type: 3}
-  _particleHit: {fileID: 8876887593665213276, guid: 4584e09dbdd7f4f47bc9fb33a867cb23, type: 3}
+  _particlesBlood: {fileID: 9039742879290479385, guid: d3519f93ec1ff2049aca4967ed6832cf, type: 3}
+  _particlesHits: {fileID: 8876887593665213276, guid: 4584e09dbdd7f4f47bc9fb33a867cb23, type: 3}
 --- !u!65 &4367270906582308634
 BoxCollider:
   m_ObjectHideFlags: 0

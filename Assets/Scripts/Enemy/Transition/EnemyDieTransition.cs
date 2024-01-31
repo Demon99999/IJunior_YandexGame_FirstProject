@@ -1,22 +1,25 @@
 using UnityEngine;
 
-[RequireComponent(typeof(HealthContainer))]
-public class EnemyDieTransition : EnemyTransition
+namespace EnemyLogic
 {
-    private HealthContainer _healthContainer;
-
-    private void Awake()
+    [RequireComponent(typeof(HealthContainer))]
+    public class EnemyDieTransition : EnemyTransition
     {
-        _healthContainer = GetComponent<HealthContainer>();
-    }
+        private HealthContainer _healthContainer;
 
-    private void Update()
-    {
-        if (_healthContainer != null)
+        private void Awake()
         {
-            if (_healthContainer.Health <=0)
+            _healthContainer = GetComponent<HealthContainer>();
+        }
+
+        private void Update()
+        {
+            if (_healthContainer != null)
             {
-                NeedTransit = true;
+                if (_healthContainer.Health <= 0)
+                {
+                    NeedTransit = true;
+                }
             }
         }
     }

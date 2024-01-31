@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IDamageable
+namespace EnemyLogic
 {
-    bool ApplayDamage(Rigidbody rigidbody, int damage, int force);
+    public interface IDamageable
+    {
+        bool IsAlive(Rigidbody rigidbody, int damage, int force);
+    }
 }

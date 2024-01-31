@@ -1,22 +1,26 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Unit))]
-public class ShootTransition : UnitTransition
+namespace UnitLogic
 {
-    private Vector3 _target;
-
-    private void Start()
+    [RequireComponent(typeof(Unit))]
+    public class ShootTransition : UnitTransition
     {
-        _target = GetComponent<Unit>().Target;
-    }
+        private Vector3 _target;
+        private float _distanceTransition = 0.5f;
 
-    private void Update()
-    {
-        if (_target != null)
+        private void Start()
         {
-            if (Vector3.Distance(transform.position, _target) < 0.5f)
+            _target = GetComponent<Unit>().Target;
+        }
+
+        private void Update()
+        {
+            if (_target != null)
             {
-                NeedTransit = true;
+                if (Vector3.Distance(transform.position, _target) < _distanceTransition)
+                {
+                    NeedTransit = true;
+                }
             }
         }
     }

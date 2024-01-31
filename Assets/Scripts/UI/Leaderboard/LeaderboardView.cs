@@ -1,26 +1,29 @@
+using System.Collections.Generic;
 using Agava.YandexGames;
 using UnityEngine;
-using System.Collections.Generic;
 
-public class LeaderboardView : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private LeaderboardEntryView _playerViewTemplate;
-    [SerializeField] private Transform _container;
-
-    private readonly List<LeaderboardEntryView> _leaderboardEntryViews=new List<LeaderboardEntryView>();
-
-    public void Create(LeaderboardEntryResponse entry)
+    public class LeaderboardView : MonoBehaviour
     {
-        LeaderboardEntryView view = Instantiate(_playerViewTemplate,_container);
-        view.SetData(entry);
-        _leaderboardEntryViews.Add(view);
-    }
+        private readonly List<LeaderboardEntryView> _leaderboardEntryViews = new List<LeaderboardEntryView>();
 
-    public void Clear()
-    {
-        foreach (var entry in _leaderboardEntryViews)
-            Destroy(entry.gameObject);
+        [SerializeField] private LeaderboardEntryView _playerViewTemplate;
+        [SerializeField] private Transform _container;
 
-        _leaderboardEntryViews.Clear();
+        public void Create(LeaderboardEntryResponse entry)
+        {
+            LeaderboardEntryView view = Instantiate(_playerViewTemplate, _container);
+            view.SetData(entry);
+            _leaderboardEntryViews.Add(view);
+        }
+
+        public void Clear()
+        {
+            foreach (var entry in _leaderboardEntryViews)
+                Destroy(entry.gameObject);
+
+            _leaderboardEntryViews.Clear();
+        }
     }
 }

@@ -1,28 +1,31 @@
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(Unit))]
-public class UnitLevel : MonoBehaviour
+namespace UnitLogic
 {
-    [SerializeField] private TMP_Text _levelText;
-    [SerializeField] private TMP_Text _gradeText;
-
-    private UnitCard _unitCard;
-
-    private void Start()
+    [RequireComponent(typeof(Unit))]
+    public class UnitLevel : MonoBehaviour
     {
-        ShowLevel();
-    }
+        [SerializeField] private TMP_Text _levelText;
+        [SerializeField] private TMP_Text _gradeText;
 
-    public void HideLevel()
-    {
-        _levelText.text = null;
-        _gradeText.text = null;
-    }
+        private UnitCard _unitCard;
 
-    private void ShowLevel()
-    {
-        _unitCard = GetComponent<Unit>().Card;
-        _gradeText.text = _unitCard.Grade.ToString();
+        private void Start()
+        {
+            ShowLevel();
+        }
+
+        public void HideLevel()
+        {
+            _levelText.text = null;
+            _gradeText.text = null;
+        }
+
+        private void ShowLevel()
+        {
+            _unitCard = GetComponent<Unit>().Card;
+            _gradeText.text = _unitCard.Grade.ToString();
+        }
     }
 }

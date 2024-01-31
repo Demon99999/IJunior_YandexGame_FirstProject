@@ -1,157 +1,113 @@
-using Agava.YandexGames;
-using TMPro;
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class BattleScreen : Screen
+namespace UI
 {
-    private const string UnitId = "UnitId";
-
-    [SerializeField] private Button _battleButton;
-    [SerializeField] private Button _buySniperButton;
-    [SerializeField] private Button _buyRiflButton;
-    [SerializeField] private Button _buyBazukaButton;
-    [SerializeField] private Button _settingButton;
-    [SerializeField] private Button _advertisingButton;
-    [SerializeField] private Button _leaderboardButton;
-
-    [SerializeField] private TMP_Text _buySniperText;
-    [SerializeField] private TMP_Text _buyRiflText;
-    [SerializeField] private TMP_Text _buyBazukaText;
-    [SerializeField] private TMP_Text _walletMoneyText;
-
-    [SerializeField] private Squad _squad;
-    [SerializeField] private CameraChanger _cameraChanger;
-    [SerializeField] private GridGenerator _gridGenerator;
-    [SerializeField] private UnitSpawner _unitSpawner;
-    [SerializeField] private AimCursor _aimCursor;
-    [SerializeField] private EnemyHandler _enemyHandler;
-    [SerializeField] private SaveSystem _saveSystem;
-    [SerializeField] private GroundAudio _groundAudio;
-    [SerializeField] private LevelReward _levelReward;
-    [SerializeField] private YandexAds _yandexAds;
-
-    public event UnityAction PlayButtonClick;
-    public event UnityAction SettingButtonClick;
-    public event UnityAction LeaderboardButtonClick;
-
-    private int _firstUnit = 0;
-
-    private void OnEnable()
+    public class BattleScreen : Screen
     {
-        _battleButton.onClick.AddListener(OnPlayButtonButtle);
-        _buySniperButton.onClick.AddListener(OnBuyButtonSniper);
-        _buyRiflButton.onClick.AddListener(OnBuyButtonRifl);
-        _buyBazukaButton.onClick.AddListener(OnBuyButtonBazuka);
-        _settingButton.onClick.AddListener(OnSettingButton);
-        _advertisingButton.onClick.AddListener(ClaimGoldForAdvertising);
-        _leaderboardButton.onClick.AddListener(OnLeaderboardButton);
+        [SerializeField] private Button _battleButton;
+        [SerializeField] private Button _buySniperButton;
+        [SerializeField] private Button _buyRiflButton;
+        [SerializeField] private Button _buyBazukaButton;
+        [SerializeField] private Button _settingButton;
+        [SerializeField] private Button _advertisingButton;
+        [SerializeField] private Button _leaderboardButton;
 
-        _unitSpawner.PriseSniperChanged += OnPriseSniperChanged;
-        _unitSpawner.PriseRiflChanged += OnPriseRiflChanged;
-        _unitSpawner.PriseBazukaChanged += OnPriseBazukaChanged;
+        [SerializeField] private GameHandler _gameHandler;
 
-        Wallet.MoneyChanged += OnMoneyChanged;
-    }
+        public event Action PlayButtonClick;
 
-    private void OnDisable()
-    {
-        _battleButton.onClick.RemoveListener(OnPlayButtonButtle);
-        _buySniperButton.onClick.RemoveListener(OnBuyButtonSniper);
-        _buyRiflButton.onClick.RemoveListener(OnBuyButtonRifl);
-        _buyBazukaButton.onClick.RemoveListener(OnBuyButtonBazuka);
-        _settingButton.onClick.RemoveListener(OnSettingButton);
-        _advertisingButton.onClick.RemoveListener(ClaimGoldForAdvertising);
-        _leaderboardButton.onClick.RemoveListener(OnLeaderboardButton);
+        public event Action SniperButtonClick;
 
-        _unitSpawner.PriseSniperChanged -= OnPriseSniperChanged;
-        _unitSpawner.PriseRiflChanged -= OnPriseRiflChanged;
-        _unitSpawner.PriseBazukaChanged -= OnPriseBazukaChanged;
+        public event Action RiflButtonClick;
 
-        Wallet.MoneyChanged -= OnMoneyChanged;
-    }
+        public event Action BazukaButtonClick;
 
-    private void Start()
-    {
-        OpenScreen();
-        Time.timeScale = 1;
+        public event Action SettingButtonClick;
 
-        _battleButton.gameObject.SetActive(false);
+        public event Action LeaderboardButtonClick;
 
-        if (UnityEngine.PlayerPrefs.HasKey(UnitId+_firstUnit))
+        public event Action RewardButtonClick;
+
+        private void OnEnable()
         {
-            _battleButton.gameObject.SetActive(true);
+            _battleButton.onClick.AddListener(OnPlayButtonBattle);
+            _buySniperButton.onClick.AddListener(OnBuyButtonSniper);
+            _buyRiflButton.onClick.AddListener(OnBuyButtonRifl);
+            _buyBazukaButton.onClick.AddListener(OnBuyButtonBazuka);
+            _settingButton.onClick.AddListener(OnSettingButton);
+            _advertisingButton.onClick.AddListener(ClaimGoldForAdvertising);
+            _leaderboardButton.onClick.AddListener(OnLeaderboardButton);
+
+            _gameHandler.StartGameClick += OnCloseScreen;
+            _gameHandler.OpenAfterFightVictoryClick += OnOpenScreen;
+            _gameHandler.OpenAfterFightDefeatClick += OnOpenScreen;
         }
-    }
 
-    private void OnBuyButtonSniper()
-    {
-        _battleButton.gameObject.SetActive(true);
-        _unitSpawner.SpawnSniper();
-    }
+        private void OnDisable()
+        {
+            _battleButton.onClick.RemoveListener(OnPlayButtonBattle);
+            _buySniperButton.onClick.RemoveListener(OnBuyButtonSniper);
+            _buyRiflButton.onClick.RemoveListener(OnBuyButtonRifl);
+            _buyBazukaButton.onClick.RemoveListener(OnBuyButtonBazuka);
+            _settingButton.onClick.RemoveListener(OnSettingButton);
+            _advertisingButton.onClick.RemoveListener(ClaimGoldForAdvertising);
+            _leaderboardButton.onClick.RemoveListener(OnLeaderboardButton);
 
-    private void OnBuyButtonRifl()
-    {
-        _battleButton.gameObject.SetActive(true);
-        _unitSpawner.SpawnRifl();
-    }
+            _gameHandler.StartGameClick -= OnCloseScreen;
+            _gameHandler.OpenAfterFightVictoryClick -= OnOpenScreen;
+            _gameHandler.OpenAfterFightDefeatClick -= OnOpenScreen;
+        }
 
-    private void OnBuyButtonBazuka()
-    {
-        _battleButton.gameObject.SetActive(true);
-        _unitSpawner.SpawnBazuka();
-    }
+        private void Start()
+        {
+            OpenScreen();
+        }
 
-    private void OnPlayButtonButtle()
-    {
-        PlayButtonClick?.Invoke();
-        _cameraChanger.OnSwitchCamera();
-        _squad.UnitsMove();
-        _squad.HideUnitsLevel();
-        _gridGenerator.HidePoints();
-        _aimCursor.CursorOn(true);
-        _enemyHandler.OnEnemies();
-        _groundAudio.OnFightClip();
-    }
+        private void OnBuyButtonSniper()
+        {
+            SniperButtonClick?.Invoke();
+        }
 
-    private void OnPriseSniperChanged(int prise)
-    {
-        OnValueChanged(prise,_buySniperText);
-    }
+        private void OnBuyButtonRifl()
+        {
+            RiflButtonClick?.Invoke();
+        }
 
-    private void OnPriseRiflChanged(int prise)
-    {
-        OnValueChanged(prise, _buyRiflText);
-    }
+        private void OnBuyButtonBazuka()
+        {
+            BazukaButtonClick?.Invoke();
+        }
 
-    private void OnPriseBazukaChanged(int prise)
-    {
-        OnValueChanged(prise, _buyBazukaText);
-    }
+        private void OnPlayButtonBattle()
+        {
+            PlayButtonClick?.Invoke();
+        }
 
-    private void OnMoneyChanged(int money)
-    {
-        OnValueChanged(money,_walletMoneyText);
-    }
+        private void OnSettingButton()
+        {
+            SettingButtonClick?.Invoke();
+        }
 
-    private void OnValueChanged(int value,TMP_Text tmpText)
-    {
-        tmpText.text = value.ToString();
-    }
+        private void OnLeaderboardButton()
+        {
+            LeaderboardButtonClick?.Invoke();
+        }
 
-    private void OnSettingButton()
-    {
-        SettingButtonClick?.Invoke();
-    }
+        private void ClaimGoldForAdvertising()
+        {
+            RewardButtonClick?.Invoke();
+        }
 
-    private void OnLeaderboardButton()
-    {
-        LeaderboardButtonClick?.Invoke();
-    }
+        private void OnOpenScreen()
+        {
+            OpenScreen();
+        }
 
-    private void ClaimGoldForAdvertising()
-    {
-        VideoAd.Show(_yandexAds.OnAdOpen, _levelReward.ClaimGoldForAdvertising, _yandexAds.OnAdClose);
+        private void OnCloseScreen()
+        {
+            CloseScreen();
+        }
     }
 }
