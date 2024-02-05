@@ -6,12 +6,11 @@ namespace GameLogic
     public class Wallet : MonoBehaviour
     {
         private int _deltaMoney = 300;
-
         private int _allMoneyReceived;
 
-        public int Money { get; private set; }
-
         public event Action<int> MoneyChanged;
+
+        public int Money { get; private set; }
 
         public int AllMoneyReceived => _allMoneyReceived;
 

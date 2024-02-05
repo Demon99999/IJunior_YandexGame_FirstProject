@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace UI
 {
+    [RequireComponent(typeof(Animator))]
     public class Screen : MonoBehaviour
     {
         private const string Open = "Open";

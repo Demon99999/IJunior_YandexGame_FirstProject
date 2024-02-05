@@ -1,7 +1,7 @@
+using System;
 using Constants;
 using EnemyLogic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,7 +12,7 @@ namespace UI
         [SerializeField] private Button _switchingButton;
         [SerializeField] private Spawner _spawner;
 
-        public event UnityAction SwitchingButtonClick;
+        public event Action SwitchingButtonClick;
 
         private void OnEnable()
         {

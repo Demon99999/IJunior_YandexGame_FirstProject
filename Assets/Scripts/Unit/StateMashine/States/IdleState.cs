@@ -1,13 +1,11 @@
-using EnemyLogic;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace UnitLogic
 {
+    [RequireComponent(typeof(NavMeshAgent))]
     public class IdleState : UnitState
     {
-        [SerializeField] private EnemyHandler _enemyHandler;
-
         private NavMeshAgent _navMeshAgent;
 
         private void Start()

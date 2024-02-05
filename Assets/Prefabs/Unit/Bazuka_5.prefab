@@ -2259,7 +2259,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 2646736572433851515}
-  _enemyHandler: {fileID: 0}
 --- !u!114 &303321829695051434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2274,7 +2273,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitions:
   - {fileID: 557485096592661525}
-  _moveSpeed: 7
 --- !u!114 &107130873102618005
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,14 +5,12 @@ using UnityEngine;
 
 namespace UnitLogic
 {
-    [RequireComponent(typeof(Collider), typeof(Animator), typeof(Collider))]
+    [RequireComponent(typeof(Collider), typeof(UnitTransfer))]
     public class UnitDrag : MonoBehaviour
     {
-        private const string Fly = "Fly";
-        private const string Idle = "Idle";
-
         [SerializeField] private LayerMask _draggingLayer;
 
+        private UnitTransfer _unitTransfer;
         private Vector3 _savePosition;
         private Collider _collider;
         private Vector3 _defaultScale;
@@ -20,21 +18,17 @@ namespace UnitLogic
         private bool _combining;
 
         private Cell _savePoint;
-        private Animator _animator;
 
         public event Action OnDragging;
 
         public bool Dragging { get; private set; }
 
-        public Unit Unit { get; private set; }
-
         public bool IsAvailableForTransfer { get; private set; }
 
         private void Start()
         {
+            _unitTransfer = GetComponent<UnitTransfer>();
             _collider = GetComponent<Collider>();
-            Unit = GetComponent<Unit>();
-            _animator = GetComponent<Animator>();
         }
 
         private void OnMouseDown()
@@ -45,7 +39,6 @@ namespace UnitLogic
             Dragging = true;
             OnDragging?.Invoke();
             _collider.isTrigger = false;
-            _animator.Play(Fly);
         }
 
         private void OnMouseUp()
@@ -53,13 +46,13 @@ namespace UnitLogic
             Dragging = false;
             OnDragging?.Invoke();
             _collider.isTrigger = true;
-            _animator.Play(Idle);
 
             if (IsAvailableForTransfer)
             {
                 if (_savePoint != null)
                 {
-                    Transfer(_savePoint);
+                    _unitTransfer.Displacement(_savePoint);
+                    transform.localScale = _defaultScale;
                     _savePoint = null;
                 }
             }
@@ -97,16 +90,6 @@ namespace UnitLogic
                     transform.localPosition = _savePosition;
                 }
             }
-        }
-
-        private void Transfer(Cell cell)
-        {
-            Unit.Point.ChangeValue();
-            transform.parent = cell.transform;
-            transform.position = cell.transform.position;
-            transform.localScale = _defaultScale;
-            Unit.InitPoint(cell);
-            Unit.Point.ChangeValue();
         }
 
         public void ChangeCombineValue()

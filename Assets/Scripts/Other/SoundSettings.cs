@@ -24,16 +24,16 @@ namespace Audio
                 _musicSlider.value = PlayerPrefs.GetFloat(MusicVolume);
                 _effectsSlider.value = PlayerPrefs.GetFloat(EffectsVolume);
 
-                SetVolumeMusic(_musicSlider.value);
-                SetVolumeEffects(_effectsSlider.value);
+                SetVolume(_musicSlider.value, MusicVolume);
+                SetVolume(_effectsSlider.value, EffectsVolume);
             }
             else
             {
                 _musicSlider.value = _defaultVolume;
                 _effectsSlider.value = _defaultVolume;
 
-                SetVolumeMusic(_defaultVolume);
-                SetVolumeEffects(_defaultVolume);
+                SetVolume(_musicSlider.value, MusicVolume);
+                SetVolume(_effectsSlider.value, EffectsVolume);
 
                 PlayerPrefs.SetFloat(MusicVolume, _defaultVolume);
                 PlayerPrefs.SetFloat(EffectsVolume, _defaultVolume);
@@ -56,27 +56,20 @@ namespace Audio
         public void OnSetMusicSlider(float volume)
         {
             _musicSlider.value = volume;
-            PlayerPrefs.SetFloat(MusicVolume, volume);
-            PlayerPrefs.Save();
-            SetVolumeMusic(volume);
+            SetVolume(volume, MusicVolume);
         }
 
         public void OnSetEffectsSlider(float volume)
         {
             _effectsSlider.value = volume;
-            PlayerPrefs.SetFloat(EffectsVolume, volume);
+            SetVolume(volume, EffectsVolume);
+        }
+
+        private void SetVolume(float volume,string nameVolume)
+        {
+            PlayerPrefs.SetFloat(nameVolume, volume);
             PlayerPrefs.Save();
-            SetVolumeEffects(volume);
-        }
-
-        private void SetVolumeMusic(float volume)
-        {
-            _audioMixer.SetFloat(MusicVolume, Mathf.Lerp(_startValue, _endValue, volume));
-        }
-
-        private void SetVolumeEffects(float volume)
-        {
-            _audioMixer.SetFloat(EffectsVolume, Mathf.Lerp(_startValue, _endValue, volume));
+            _audioMixer.SetFloat(nameVolume, Mathf.Lerp(_startValue, _endValue, volume));
         }
     }
 }

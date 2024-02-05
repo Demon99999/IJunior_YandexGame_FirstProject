@@ -1,5 +1,5 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 using YandexSDK;
 
@@ -18,7 +18,7 @@ namespace UI
         [SerializeField] private Localization _localization;
         [SerializeField] private GameHandler _gameHandler;
 
-        public event UnityAction ExitButtonClick;
+        public event Action ExitButtonClick;
 
         private void OnEnable()
         {
@@ -64,11 +64,6 @@ namespace UI
         private void OnOpen()
         {
             OpenScreen();
-        }
-
-        private void OnClose()
-        {
-            CloseScreen();
         }
     }
 }

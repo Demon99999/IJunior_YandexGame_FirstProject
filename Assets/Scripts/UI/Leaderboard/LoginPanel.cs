@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private SaveSystem _saveSystem;
 
         public event Action Decline;
+
         public event Action Accept;
 
         private void OnEnable()

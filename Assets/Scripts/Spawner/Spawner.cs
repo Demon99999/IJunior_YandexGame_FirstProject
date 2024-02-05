@@ -93,7 +93,7 @@ namespace EnemyLogic
         {
             if (_currentLevelIndex >= _levels.Count)
             {
-                _sceneManage.OpenAnotherScene();
+                _sceneManage.OpenScene();
             }
         }
 

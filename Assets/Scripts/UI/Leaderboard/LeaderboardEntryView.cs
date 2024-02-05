@@ -12,6 +12,9 @@ namespace UI
         private const string AnonymousEn = "Anonymous";
         private const string AnonymousRu = "Аноним";
         private const string AnonymousTr = "İsimsiz";
+        private const string En = "en";
+        private const string Ru = "ru";
+        private const string Tr = "tr";
 
         [SerializeField] private TMP_Text _rank;
         [SerializeField] private TMP_Text _playerName;
@@ -54,15 +57,19 @@ namespace UI
 
         private string IdentifyName(string publicName)
         {
-            string anon = AnonymousEn;
+            string anon;
 
-            if (YandexGamesSdk.Environment.i18n.lang == "ru")
+            switch (YandexGamesSdk.Environment.i18n.lang)
             {
-                anon = AnonymousRu;
-            }
-            else if (YandexGamesSdk.Environment.i18n.lang == "tr")
-            {
-                anon = AnonymousTr;
+                case Ru:
+                    anon = AnonymousRu;
+                    break;
+                case Tr:
+                    anon = AnonymousTr;
+                    break;
+                default:
+                    anon = AnonymousEn;
+                    break;
             }
 
             if (string.IsNullOrEmpty(publicName))

@@ -27,7 +27,7 @@ namespace YandexSDK
         public void ShowInterstitial()
         {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        InterstitialAd.Show(OnAdOpen, OnIterstitialAddClose);
+        InterstitialAd.Show(OnAdOpen, OnAdClose);
 #endif
         }
 
@@ -45,12 +45,6 @@ namespace YandexSDK
         }
 
         private void OnAdClose()
-        {
-            Time.timeScale = 1;
-            AudioListener.volume = 1;
-        }
-
-        private void OnIterstitialAddClose(bool value)
         {
             Time.timeScale = 1;
             AudioListener.volume = 1;

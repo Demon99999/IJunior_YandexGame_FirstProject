@@ -140,12 +140,6 @@ namespace GameLogic
             SaveLeaderboardScore(PlayerPrefs.GetInt(AllGold));
         }
 
-        private void ResetLevel()
-        {
-            PlayerPrefs.SetInt(CurrentLevel, 0);
-            PlayerPrefs.SetInt(Map, _sceneManage.SceneIndex);
-        }
-
         public void ResetSave()
         {
             PlayerPrefs.SetInt(CurrentLevel, 0);
@@ -156,6 +150,12 @@ namespace GameLogic
             PlayerPrefs.SetInt(PriseSniper, _startPriseSniper);
             PlayerPrefs.SetInt(PriseRifl, _startPriseRifl);
             PlayerPrefs.SetInt(PriseBazuka, _startPriceBazuka);
+        }
+
+        private void ResetLevel()
+        {
+            PlayerPrefs.SetInt(CurrentLevel, 0);
+            PlayerPrefs.SetInt(Map, _sceneManage.SceneIndex);
         }
 
         private void SaveUnit()

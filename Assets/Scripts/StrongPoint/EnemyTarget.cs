@@ -38,10 +38,8 @@ namespace EnemyLogic
             {
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
 
         public void ApplyDamage(float damage)

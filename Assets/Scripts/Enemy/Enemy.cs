@@ -1,5 +1,5 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace EnemyLogic
 {
@@ -16,7 +16,7 @@ namespace EnemyLogic
         private EnemyTarget _targetPoint;
         private Transform _target;
 
-        public event UnityAction<Enemy> Died;
+        public event Action<Enemy> Died;
 
         public EnemyState CurrentState => _currentState;
 

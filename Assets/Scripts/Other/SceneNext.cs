@@ -11,11 +11,6 @@ namespace GameLogic
 
         public int SceneIndex => _sceneIndex;
 
-        public void OpenAnotherScene()
-        {
-            SceneManager.LoadScene(_sceneIndex);
-        }
-
         public void ShowScene()
         {
             if (_sceneIndex < _sceneIndexMax)

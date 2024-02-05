@@ -11,7 +11,7 @@ namespace UI
 
         private void OnEnable()
         {
-            _score.text = _spawner.LevelIndex.ToString();
+            OnScoreChanged(_spawner.LevelIndex);
             _spawner.LevelChanged += OnScoreChanged;
         }
 

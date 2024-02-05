@@ -15,6 +15,8 @@ namespace EnemyLogic
 
         private Material _enemyMaterial;
         private float _delayBeforeDeath = 0.5f;
+        private float _startValue = 1.0f;
+        private float _endValue = 0.0f;
 
         private Animator _animator;
         private Rigidbody _rigidbody;
@@ -41,11 +43,10 @@ namespace EnemyLogic
         {
             Color enemyColor = _material.color;
             float elapsedTime = 0.0f;
-            Vector3 position = transform.position;
 
             while (elapsedTime < _fadeTime)
             {
-                float alpha = Mathf.Lerp(1.0f, 0.0f, elapsedTime / _fadeTime);
+                float alpha = Mathf.Lerp(_startValue, _endValue, elapsedTime / _fadeTime);
                 enemyColor.a = alpha;
                 _enemyMaterial.color = enemyColor;
                 elapsedTime += Time.deltaTime;

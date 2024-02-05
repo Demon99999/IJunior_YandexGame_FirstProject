@@ -5,7 +5,7 @@ namespace UnitLogic
     [RequireComponent(typeof(Animator))]
     public class UnitStateMashine : MonoBehaviour
     {
-        [SerializeField] private UnitState _firstState;
+        [SerializeField] private IdleState _firstState;
 
         private UnitState _currentState;
         private Animator _animator;

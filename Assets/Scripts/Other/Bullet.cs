@@ -32,16 +32,7 @@ namespace GameLogic
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out EnemyCollision enemy))
-            {
-                ApplyDamageToEnemy(enemy);
-            }
-
-            if (other.TryGetComponent(out ExplosionBarrel barrel))
-            {
-                barrel.Explode();
-            }
-
+            CheckHitCollider(other);
             Destroy(gameObject);
         }
 
@@ -61,15 +52,20 @@ namespace GameLogic
 
             foreach (Collider collider in colliders)
             {
-                if (collider.TryGetComponent(out EnemyCollision enemyCollision))
-                {
-                    ApplyDamageToEnemy(enemyCollision);
-                }
+                CheckHitCollider(collider);
+            }
+        }
 
-                if (collider.TryGetComponent(out ExplosionBarrel explosionBarrel))
-                {
-                    explosionBarrel.Explode();
-                }
+        private void CheckHitCollider(Collider collider)
+        {
+            if (collider.TryGetComponent(out EnemyCollision enemy))
+            {
+                ApplyDamageToEnemy(enemy);
+            }
+
+            if (collider.TryGetComponent(out ExplosionBarrel barrel))
+            {
+                barrel.Explode();
             }
         }
 

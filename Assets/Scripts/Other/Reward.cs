@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GameLogic
 {
-    public class LevelReward : MonoBehaviour
+    public class Reward : MonoBehaviour
     {
         [SerializeField] private EnemyHandler _enemyHandler;
         [SerializeField] private Spawner _spawner;
@@ -49,24 +49,28 @@ namespace GameLogic
 
         private void OnClaimReward()
         {
-            _wallet.AddMoney(_goldCount);
-            _goldCount = 0;
+            AddGold(_goldCount);
         }
 
         private void OnClaimDoubleReward()
         {
-            _wallet.AddMoney(_goldCount * _doubleMultiplier);
-            _goldCount = 0;
+            AddGold(_goldCount * _doubleMultiplier);
         }
 
         private void OnClaimGoldForAdvertising()
         {
-            _wallet.AddMoney(_goldForAdvertising);
+            AddGold(_goldForAdvertising);
         }
 
         private void OnClaimGoldForAdvertisingForDefeat()
         {
-            _wallet.AddMoney(_goldForAdvertisingForDefeat);
+            AddGold(_goldForAdvertisingForDefeat);
+        }
+
+        private void AddGold(int gold)
+        {
+            _wallet.AddMoney(gold);
+            _goldCount = 0;
         }
     }
 }
