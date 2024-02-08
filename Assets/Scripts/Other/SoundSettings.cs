@@ -65,7 +65,7 @@ namespace Audio
             SetVolume(volume, EffectsVolume);
         }
 
-        private void SetVolume(float volume,string nameVolume)
+        private void SetVolume(float volume, string nameVolume)
         {
             PlayerPrefs.SetFloat(nameVolume, volume);
             PlayerPrefs.Save();

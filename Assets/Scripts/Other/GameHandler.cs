@@ -7,11 +7,8 @@ namespace UI
     {
         [SerializeField] private BattleScreen _battleScreen;
         [SerializeField] private VictoryScreen _victoryScreen;
-        [SerializeField] private FightScreen _fightScreen;
         [SerializeField] private DefeatScreen _defeatScreen;
-        [SerializeField] private SettingMenuScreen _settingMenuScreen;
-        [SerializeField] private LeaderboardScreen _leaderboardScreen;
-
+        
         public event Action StartGameClick;
 
         public event Action OpenAfterFightVictoryClick;

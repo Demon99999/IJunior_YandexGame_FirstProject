@@ -8,13 +8,11 @@ namespace UnitLogic
     public class Squad : MonoBehaviour
     {
         [SerializeField] private GridGenerator _gridGenerator;
-        [SerializeField] private UnitSpawner _unitSpawner;
         [SerializeField] private AimCursor _aimCursor;
         [SerializeField] private VictoryScreen _victoryScreen;
         [SerializeField] private DefeatScreen _defeatScreen;
         [SerializeField] private BattleScreen _battleScreen;
 
-        private List<Cell> _cells;
         private int _maxUnit = 5;
         private List<Unit> _units;
         private float _positionX = 1.5f;
@@ -42,17 +40,9 @@ namespace UnitLogic
             _battleScreen.PlayButtonClick -= OnUnitsMove;
         }
 
-        private void Start()
-        {
-            _cells = new List<Cell>();
-            _units = new List<Unit>();
-        }
-
         public bool IsPositive()
         {
-            _cells = _gridGenerator.Cells;
-            _units = GetUnits(_cells);
-
+            _units = GetUnits(_gridGenerator.Cells);
             return _units.Count > 0;
         }
 
@@ -63,8 +53,7 @@ namespace UnitLogic
 
         private void OnUnitsMove()
         {
-            _cells = _gridGenerator.Cells;
-            _units = GetUnits(_cells);
+            _units = GetUnits(_gridGenerator.Cells);
             DistributionMove(_maxUnit, _units);
             HideUnitsLevel();
         }
@@ -109,14 +98,7 @@ namespace UnitLogic
 
         private void DistributionMove(int count, List<Unit> units)
         {
-            if (units.Count >= count)
-            {
-                AddUnits(count, units);
-            }
-            else
-            {
-                AddUnits(units.Count, units);
-            }
+            AddUnits(units.Count >= count ? count : units.Count, units);
         }
 
         private void AddUnits(int count, List<Unit> units)
@@ -135,7 +117,7 @@ namespace UnitLogic
         {
             List<Vector3> points = new List<Vector3>();
 
-            for (float i = 1; i < count * _multiplierDistance; i = i + _positionX)
+            for (float i = 1; i < count * _multiplierDistance; i += _positionX)
             {
                 points.Add(new Vector3(i, _positionY, _positionZ));
             }

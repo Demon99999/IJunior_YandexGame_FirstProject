@@ -14293,8 +14293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a22420589b298f4aa640368e5d2e603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelReward: {fileID: 1251225994}
-  _gold: {fileID: 989301956}
+  _score: {fileID: 989301956}
+  _reward: {fileID: 1251225994}
 --- !u!222 &3216337239321492400
 CanvasRenderer:
   m_ObjectHideFlags: 0

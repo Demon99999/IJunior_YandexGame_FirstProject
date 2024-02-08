@@ -56,6 +56,14 @@ namespace GameLogic
             }
         }
 
+        public void Initialize(int damage, ParticleSystem particleSystem)
+        {
+            _damage = damage;
+            _particlesSparks = particleSystem;
+            Instantiate(_particlesSparks, transform);
+            _particlesSparks.Play();
+        }
+
         private void CheckHitCollider(Collider collider)
         {
             if (collider.TryGetComponent(out EnemyCollision enemy))
@@ -67,14 +75,6 @@ namespace GameLogic
             {
                 barrel.Explode();
             }
-        }
-
-        public void Initialize(int damage, ParticleSystem particleSystem)
-        {
-            _damage = damage;
-            _particlesSparks = particleSystem;
-            Instantiate(_particlesSparks, transform);
-            _particlesSparks.Play();
         }
 
         private void ApplyDamageToEnemy(EnemyCollision enemy)

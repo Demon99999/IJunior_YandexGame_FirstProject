@@ -1,28 +1,21 @@
 using GameLogic;
-using TMPro;
 using UnityEngine;
 
 namespace UI
 {
-    public class RewardsScore : MonoBehaviour
+    public class RewardsScore : Score
     {
         [SerializeField] private Reward _reward;
-        [SerializeField] private TMP_Text _gold;
 
         private void OnEnable()
         {
-            _gold.text = _reward.GoldCount.ToString();
-            _reward.GoldChanged += OnGoldChanged;
+            OnScoreChanged(_reward.GoldCount);
+            _reward.GoldChanged += OnScoreChanged;
         }
 
         private void OnDisable()
         {
-            _reward.GoldChanged -= OnGoldChanged;
-        }
-
-        private void OnGoldChanged(int score)
-        {
-            _gold.text = score.ToString();
+            _reward.GoldChanged -= OnScoreChanged;
         }
     }
 }
